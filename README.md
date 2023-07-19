@@ -25,7 +25,7 @@ Using banks can be a very exhausting and tiring experience for the customers due
   <img src="https://github.com/mhmd3397/BookBank/blob/main/wireframepics/new%20appointment.png" alt="new_appointment">
   <li>After booking an appointment it will show a message and the booked appointments for the user, here he can either edit or delete an appointment.</li>
   <img src="https://github.com/mhmd3397/BookBank/blob/main/wireframepics/user%20homapage.png" alt="detail_customer">
-  <li>Logging in as an employee will take the user to a page that shows links depending on the service type.</li>//////////////
+  <li>Logging in as an employee will take the user to a page that shows links depending on the service type.</li>
   <img src="https://github.com/mhmd3397/BookBank/blob/main/wireframepics/employee%20home%20page.png" alt="employee_homepage">
   <li>Clicking either link will take the employee to a page that shows all the booking for the service.</li>
   <li>Clicking each appointment will show the details for the appointment along with the customer who booked the appointment.</li>
