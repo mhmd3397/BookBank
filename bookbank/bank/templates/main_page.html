@@ -10,12 +10,6 @@
             margin: 0;
             padding: 0;
         }
-        header {
-            background-color: #333;
-            color: #fff;
-            text-align: center;
-            padding: 10px;
-        }
         .container {
             display: flex;
             justify-content: space-between;
@@ -47,9 +41,18 @@
     </style>
 </head>
 <body>
-    <header>
-        <h1>BookBank</h1>
-    </header>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="{% url 'login_registration' %}">BookBank</a>
+            <div>
+                <form class="form-inline my-2 my-lg-0" method="POST" action="{% url 'logout' %}">
+                    {% csrf_token %}
+                    <div class="form-control mr-sm-2">Welcome!</div>
+                    <button class="btn btn-outline-danger my-2 my-sm-0" type="submit">Login</button>
+                </form>
+            </div>
+        </div>
+    </nav>
     <div class="container">
         <div class="left-content">
             <h2>Welcome to our BookBank Appintment Portal</h2>
