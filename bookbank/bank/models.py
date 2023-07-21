@@ -32,7 +32,7 @@ class Employee(models.Model):
     last_name = models.CharField(max_length=255)
     email = models.CharField(max_length=255)
     password = models.CharField(max_length=255)
-    eployee_id = models.IntegerField()
+    employee_id = models.IntegerField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
