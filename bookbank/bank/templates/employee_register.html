@@ -1,11 +1,90 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <meta name="viewport" content="width=80vw, initial-scale=1.0">
+    <title>Success</title>
+    {% load static %}
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 </head>
+
 <body>
-    <h3>ffff</h3>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="{% url 'login_registration' %}">BookBank</a>
+            <div>
+                <form class="form-inline my-2 my-lg-0" method="POST" action="{% url 'logout' %}">
+                    {% csrf_token %}
+                    <div class="form-control mr-sm-2">Welcome!</div>
+                    <button class="btn btn-outline-danger my-2 my-sm-0" type="submit">Login</button>
+                </form>
+            </div>
+        </div>
+    </nav>
+    <div class="container-fluid bg-secondary bg-gradient" style="width: 90%; padding: auto;">
+        <br><br>
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="card-body">
+                    <h5 class="card-title">The best way to book an appointment for bank</h5>
+                    <p class="card-text">Using banks can be a very exhausting and tiring experience for the customers
+                        due to how crowded it can get and time consuming, Bookbank solves this problem by making a
+                        platform that will show the available time slots and days for a certain bank, and the users can
+                        login and reserve an appointment in said bank.</p>
+                </div>
+            </div>
+            <div class="col-sm-6 ">
+                <div class="card text-dark bg-light mb-3" style="padding: 2%;">
+                    <h2>Employee Registration</h2>
+                    <form method=" POST" action="{% url 'login_registration' %}">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label for="registration_first_name">First Name</label>
+                            <input type="text" class="form-control" id="registration_first_name" name="first_name"
+                                required>
+                        </div>
+                        <div class="form-group">
+                            <label for="registration_last_name">Last Name</label>
+                            <input type="text" class="form-control" id="registration_last_name" name="last_name"
+                                required>
+                        </div>
+                        <div class="form-group">
+                            <label for="registration_email">Email</label>
+                            <input type="email" class="form-control" id="registration_email" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="registration_email">Employee ID</label>
+                            <input type="text" class="form-control" id="employee_id" name="employee_id" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="registration_password">Password</label>
+                            <input type="password" class="form-control" id="registration_password" name="password"
+                                required>
+                        </div>
+                        <div class="form-group">
+                            <label for="registration_confirm_password">Confirm Password</label>
+                            <input type="password" class="form-control" id="registration_confirm_password"
+                                name="confirm_password" required>
+                        </div>
+                        {% if messages %}
+                        <ul class="messages">
+                            {% for message in messages %}
+                            {%if "register" in message.tags %}
+                            <li class="alert alert-danger mt-4">{{ message }}</li>
+                            {% endif %}
+                            {% endfor %}
+                        </ul>
+                        {% endif %}
+                        <button type="submit" class="btn btn-primary" name="registration_submit">Register</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Include the necessary JavaScript libraries -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 </body>
+
 </html>
