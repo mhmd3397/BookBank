@@ -1,6 +1,15 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import render, redirect
 
 # Create your views here.
 
-def homepage(request):
-    return render(request, "homepage.html")
+
+def main_page(request):
+    return render(request, "main_page.html")
+
+
+def staff_registration_view(request):
+    return render(request, 'staff_registration.html')
+
+
+def customer_registration_view(request):
+    return render(request, 'customer_registration.html')
