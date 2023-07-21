@@ -120,7 +120,7 @@ class Employee(models.Model):
 
 class Appointment(models.Model):
     day = models.DateField()
-    # default needs to be added
+    # default needs to be added for time choices
     time = models.CharField(max_length=255, choices=TIME_CHOICES)
     service_type = models.CharField(
         max_length=255, choices=SERVICES_CHOICES, default="Teller")
