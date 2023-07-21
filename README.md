@@ -48,5 +48,5 @@ Using banks can be a very exhausting and tiring experience for the customers due
 <ul>
   <li>Azzam Ahmad</li>
   <li>Yousef Brighith</li>
-  <li>Mohammad Elayan</li>
+  <li>Mohammed Eleyan</li>
 </ul>
