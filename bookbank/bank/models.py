@@ -17,6 +17,10 @@ TIME_CHOICES = (
     ("2:30 PM", "2:30 PM"),
 )
 
+SERVICES_CHOICES = (
+    ("Teller", "Teller"),
+    ("Customer service", "Customer service")
+)
 
 class User(models.Model):
     first_name = models.CharField(max_length=255)
@@ -39,8 +43,8 @@ class Employee(models.Model):
 
 class Appointment(models.Model):
     day = models.DateField()
-    time = models.CharField(max_length=255,choices=TIME_CHOICES)
-    service_type = models.CharField(max_length=255)
+    time = models.CharField(max_length=255, choices=TIME_CHOICES) ##default needs to be added
+    service_type = models.CharField(max_length=255, choices=SERVICES_CHOICES, default="Teller")
     user = models.ForeignKey(User, related_name="users", on_delete=models.CASCADE)
     employee = models.ForeignKey(Employee, related_name="employees", on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
