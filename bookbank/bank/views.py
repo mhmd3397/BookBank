@@ -7,8 +7,8 @@ def main_page(request):
     return render(request, "main_page.html")
 
 
-def staff_registration_view(request):
-    return render(request, 'staff_registration.html')
+def employee_registration_view(request):
+    return render(request, "employee_register.html")
 
 
 def customer_registration_view(request):
