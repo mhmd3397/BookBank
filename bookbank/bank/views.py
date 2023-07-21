@@ -12,4 +12,8 @@ def employee_registration_view(request):
 
 
 def customer_registration_view(request):
-    return render(request, 'customer_registration.html')
+    return render(request, 'customer_register.html')
+
+
+def login(request):
+    return render(request, 'login_page.html')
