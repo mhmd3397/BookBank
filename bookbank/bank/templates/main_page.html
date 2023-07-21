@@ -1,29 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BookBank Homepage</title>
+    {% load static %}
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
     <style>
         body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
         }
+
         .container {
             display: flex;
             justify-content: space-between;
             align-items: center;
             padding: 20px;
         }
+
         .left-content {
             flex: 1;
             text-align: left;
         }
+
         .right-content {
             flex: 1;
             text-align: right;
         }
+
         button {
             display: block;
             width: 200px;
@@ -35,11 +42,13 @@
             border: none;
             cursor: pointer;
         }
+
         button:hover {
             background-color: #0056b3;
         }
     </style>
 </head>
+
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid">
@@ -57,7 +66,7 @@
         <div class="left-content">
             <h2>Welcome to our BookBank Appintment Portal</h2>
             <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
                 Nullam vestibulum ex sit amet ultricies venenatis.
             </p>
         </div>
@@ -71,5 +80,9 @@
             <a class="login-link" href="{% url 'login_registration' %}">Already registered? Log in</a>
         </div>
     </div>
+    <!-- Include the necessary JavaScript libraries -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 </body>
+
 </html>
