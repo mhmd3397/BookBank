@@ -1,12 +1,7 @@
 from django.db import models
-from datetime import date, datetime
+from datetime import date, datetime  # noqa
 import re
 import bcrypt
-
-
-def calculate_age(born):
-    today = date.today()
-    return today.year-born.year-((today.month, today.day) < (born.month, born.day))  # noqa
 
 
 class UserManager(models.Manager):
@@ -50,12 +45,10 @@ class UserManager(models.Manager):
         # birthday = postData.get('birthday')
         # if birthday:
         #     try:
-        #         birthday_date = datetime.strptime(birthday, '%Y-%m-%d').date()
+        #         birthday_date = datetime.strptime(birthday, '%Y-%m-%d').date() # noqa
         #         today = date.today()
-        #         if (today - birthday_date).days < 0:
-        #             errors['birthday'] = "Birthday cannot be in the future."
-        #         elif calculate_age(birthday_date) < 13:
-        #             errors['birthday'] = "You must be at least 13 years old to register."  # noqa
+        #         if (today - birthday_date).days > 0:
+        #             errors['birthday'] = "Birthday cannot be in the Past."
         #     except ValueError:
         #         errors['birthday'] = "Invalid date format."
         # return errors
@@ -152,7 +145,7 @@ class User(models.Model):
     password = models.CharField(max_length=255)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    
+
     objects = UserManager()
 
 
