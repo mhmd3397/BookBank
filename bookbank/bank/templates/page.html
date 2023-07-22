@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to the App</title>
+    
+</head>
+/* Styles for the page.html template */
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 10px;
+}
+
+.container {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+}
+
+h1 {
+    margin-bottom: 10px;
+}
+
+h2 {
+    margin-bottom: 10px;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+}
+
+li {
+    margin-bottom: 10px;
+}
+
+a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+<body>
+    <header>
+        <h1>Welcome, {{ user.username }}!</h1>
+        <p>Thank you for logging in to our app.</p>
+    </header>
+    <div class="container">
+        <h2>Your Appointments</h2>
+        <ul>
+            {% for appointment in appointments %}
+            <li><a href="{% url 'appointment_details' appointment.id %}">{{ appointment.title }}</a></li>
+            {% endfor %}
+        </ul>
+    </div>
+</body>
+</html>
