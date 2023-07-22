@@ -37,7 +37,7 @@
             <div class="col-sm-6 ">
                 <div class="card text-dark bg-light mb-3" style="padding: 2%;">
                     <h2>Login</h2>
-                    <form method="POST" action="{% url 'login_registration' %}">
+                    <form method="POST" action="{% url 'page' %}">
                         {% csrf_token %}
                         <div class="form-group">
                             <label for="login_email">Email</label>
@@ -56,7 +56,7 @@
                             {% endfor %}
                         </ul>
                         {% endif %}
-                        <button type="submit" class="btn btn-primary" name="login_submit">Login</button>
+                        <button href="{% url 'page' %}" type="submit" class="btn btn-primary" name="login_submit">Login</button>
                     </form>
                 </div>
             </div>
