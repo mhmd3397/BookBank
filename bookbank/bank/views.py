@@ -17,3 +17,7 @@ def customer_registration_view(request):
 
 def login(request):
     return render(request, 'login_page.html')
+
+def logout(request):
+    pass
+    return redirect('/')
