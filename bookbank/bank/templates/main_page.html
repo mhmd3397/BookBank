@@ -7,7 +7,7 @@
     <title>BookBank Homepage</title>
     {% load static %}
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-    <style>
+    {% comment %} <style>
         body {
             font-family: Arial, sans-serif;
             margin: 0;
@@ -46,7 +46,7 @@
         button:hover {
             background-color: #0056b3;
         }
-    </style>
+    </style> {% endcomment %}
 </head>
 
 <body>
@@ -63,25 +63,27 @@
             </div>
         </div>
     </nav>
-    <div class="container">
-        <div class="left-content">
-            <h2>Welcome to our BookBank Appintment Portal</h2>
-            <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                Nullam vestibulum ex sit amet ultricies venenatis.
-            </p>
-        </div>
-        <div class="right-content">
-            <a href="{% url 'employee_registration' %}">
-                <button>Employee Registration</button>
-            </a>
-            <a href="{% url 'customer_registration' %}">
-                <button>Customer Registration</button>
-            </a>
-            <a class="login-link" href="{% url 'login_registration' %}">Already registered? Log in</a>
+    <div class="container-fluid bg-secondary bg-gradient" style="width: 90%; padding: auto;">
+        <br><br>
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="card-body">
+                    <h3 class="card-title">The best way to book an appointment for bank</h3>
+                    <p class="card-text">Using banks can be a very exhausting and tiring experience for the customers
+                        due to how crowded it can get and time consuming, Bookbank solves this problem by making a
+                        platform that will show the available time slots and days for a certain bank, and the users can
+                        login and reserve an appointment in said bank.</p>
+                </div>
+            </div>
+            <div class="col-sm-6 ">
+                <div class="card text-dark bg-light mb-3" style="align-items: center;">
+                    <button class="btn btn-primary" type="submit">Employee Registration</button>
+                    <button class="btn btn-primary" type="submit">Customer Registration</button>
+                    <a class="login-link" href="{% url 'login_registration' %}">Already registered? Log in</a>
+                </div>
+            </div>
         </div>
     </div>
-   
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 </body>
