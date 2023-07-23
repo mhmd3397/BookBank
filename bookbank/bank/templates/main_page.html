@@ -7,46 +7,6 @@
     <title>BookBank Homepage</title>
     {% load static %}
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-    {% comment %} <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-        }
-
-        .container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px;
-        }
-
-        .left-content {
-            flex: 1;
-            text-align: left;
-        }
-
-        .right-content {
-            flex: 1;
-            text-align: right;
-        }
-
-        button {
-            display: block;
-            width: 200px;
-            padding: 10px 20px;
-            font-size: 16px;
-            margin: 10px;
-            background-color: #007bff;
-            color: #fff;
-            border: none;
-            cursor: pointer;
-        }
-
-        button:hover {
-            background-color: #0056b3;
-        }
-    </style> {% endcomment %}
 </head>
 
 <body>
@@ -54,8 +14,7 @@
         <div class="container-fluid">
             <a class="navbar-brand" href="{% url 'login_registration' %}">BookBank</a>
             <div>
-                <form class="form-inline my-2 my-lg-0" method="POST">
-                    {% comment %} action="{% url 'logout' %}" {% endcomment %}
+                <form class="form-inline my-2 my-lg-0" method="POST" action="{% url 'logout' %}">
                     {% csrf_token %}
                     <div class="form-control mr-sm-2">Welcome!</div>
                     <button class="btn btn-outline-danger my-2 my-sm-0" type="submit">Login</button>
@@ -65,7 +24,7 @@
     </nav>
     <div class="container-fluid bg-secondary bg-gradient" style="width: 90%; padding: auto;">
         <br>
-        <div class="row" >
+        <div class="row">
             <div class="col-sm-6">
                 <div class="card-body">
                     <h3 class="card-title">The best way to book an appointment for bank</h3>
@@ -77,8 +36,13 @@
             </div>
             <div class="col-sm-6 ">
                 <div class="card text-dark bg-light mb-3" style="align-items: center;">
-                    <a href="{% url 'employee_registration' %}"><button class="btn btn-primary" type="submit">Employee Registration</button></a>
-                    <a href="{% url 'customer_registration' %}"><button class="btn btn-primary" type="submit">Customer Registration</button></a>
+                    <br>
+                    <a href="{% url 'employee_registration' %}"><button class="btn btn-primary" type="submit">Employee
+                            Registration</button></a>
+                            <br>
+                    <a href="{% url 'customer_registration' %}"><button class="btn btn-primary" type="submit">Customer
+                            Registration</button></a>
+                            <br>
                     <a class="login-link" href="{% url 'login_registration' %}">Already registered? Log in</a>
                 </div>
             </div>
