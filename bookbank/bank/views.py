@@ -47,9 +47,7 @@ def logout(request):
     request.session.flush()
     return redirect('/')
 
-def logout(request):
-    pass
-    return redirect('/')
+
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 
