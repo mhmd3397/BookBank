@@ -1,5 +1,5 @@
 from django.db import models
-from datetime import date, datetime  # noqa
+from datetime import date, datetime
 import re
 import bcrypt
 
@@ -41,17 +41,6 @@ class UserManager(models.Manager):
             errors['password'] = "Password should be at least 8 characters."
         elif password != confirm_password:
             errors['confirm_password'] = "Passwords do not match."
-        # # Validate Birthday (if provided)
-        # birthday = postData.get('birthday')
-        # if birthday:
-        #     try:
-        #         birthday_date = datetime.strptime(birthday, '%Y-%m-%d').date() # noqa
-        #         today = date.today()
-        #         if (today - birthday_date).days > 0:
-        #             errors['birthday'] = "Birthday cannot be in the Past."
-        #     except ValueError:
-        #         errors['birthday'] = "Invalid date format."
-        # return errors
 
 
 class EmployeeManager(models.Manager):
@@ -119,6 +108,22 @@ class EmployeeManager(models.Manager):
             logged_employee = employee[0]
             if not bcrypt.checkpw(postData.get('password').encode(), logged_employee.password.encode()):  # noqa
                 errors['password'] = "Your email or password is incorrect."
+        return errors
+
+    def basic_validator_appointment(self, postData):
+        errors = {}
+        # Validate Day
+        day = postData.get('day')
+        if not day:
+            errors['day'] = "Day Feild is required."
+        if day:
+            try:
+                day_date = datetime.strptime(day, '%Y-%m-%d').date()
+                today = date.today()
+                if (today - day_date).days > 0:
+                    errors['day'] = "Appointment cannot be in the Past."
+            except ValueError:
+                errors['day'] = "Invalid date format."
         return errors
 
 
