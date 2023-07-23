@@ -104,13 +104,20 @@ class EmployeeManager(models.Manager):
         # Validate Email
         email = postData.get('email')
         existing_user = User.objects.filter(email=email).first()
+        existing_Employee = Employee.objects.filter(email=email).first()
         if not existing_user:
-            errors['email'] = "Your email or password is incorrect."
+            if not existing_Employee:
+                errors['email'] = "Your email or password is incorrect."
         # Validate password
         user = User.objects.filter(email=email)
+        employee = Employee.objects.filter(email=email)
         if user:
             logged_user = user[0]
             if not bcrypt.checkpw(postData.get('password').encode(), logged_user.password.encode()):  # noqa
+                errors['password'] = "Your email or password is incorrect."
+        if employee:
+            logged_employee = employee[0]
+            if not bcrypt.checkpw(postData.get('password').encode(), logged_employee.password.encode()):  # noqa
                 errors['password'] = "Your email or password is incorrect."
         return errors
 
