@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=80vw, initial-scale=1.0">
+    <title>Home Page</title>
+    {% load static %}
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <div>
+                <a class="navbar-brand" href="{% url 'home_page_customer' %}">Home</a>
+                <a class="navbar-brand" href="create_appointment">Book appointment</a>
+            </div>
+            <div>
+                <form class="form-inline my-2 my-lg-0" method="POST" action="{% url 'logout' %}">
+                    {% csrf_token %}
+                    <div class="form-control mr-sm-2">Welcome!</div>
+                    <button class="btn btn-outline-danger my-2 my-sm-0">Login</button>
+                </form>
+            </div>
+        </div>
+    </nav>
+    <main>
+        <div class="container-fluid bg-secondary bg-gradient" style="width: 90%; padding: auto;">
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="card-body">
+                        <h3 class="card-title">Book Your Appointment</h3>
+                        <h2 class="card-text">Find your best time for visiting us</h2>
+                        <p class="card-text">Using banks can be a very exhausting and tiring experience for the
+                            customers due to how crowded it can get and time consuming, Bookbank solves this problem by
+                            making a
+                            platform that will show the available time slots and days for a certain bank, and the users
+                            can login and reserve an appointment in said bank.</p>
+                    </div>
+                </div>
+                <div class="col-sm-6 ">
+                    <div class="card text-dark bg-light mb-3" style="padding: 2%; align-items: center;">
+                        <h2>Book Appointment</h2>
+                        <form method=" POST" action="{% url 'login_registration' %}">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <label>Service Type</label>
+                                <select class="form-select" aria-label="Default select example">
+                                    <option value="2">Teller</option>
+                                    <option value="3">Customer Services</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="appointment_day">Appointment Day</label>
+                                <input type="date" class="form-control" id="appointment_day" name="appointment_day"
+                                    required>
+                            </div>
+                            <div class="form-group">
+                                <label>Appointment Time</label>
+                                <select class="form-select" aria-label="Default select example">
+                                    <option value="2">8:30</option>
+                                    <option value="3">9:00</option>
+                                    {% comment %}
+                                    here we will put for loop with filtered times that is available
+                                    {% endcomment %}
+                                </select>
+                            </div>
+                            {% if messages %}
+                            <ul class="messages">
+                                {% for message in messages %}
+                                {%if "register" in message.tags %}
+                                <li class="alert alert-danger mt-4">{{ message }}</li>
+                                {% endif %}
+                                {% endfor %}
+                            </ul>
+                            {% endif %}
+                            <button type="submit" class="btn btn-primary" name="registration_submit">Register</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+</body>
