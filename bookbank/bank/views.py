@@ -1,5 +1,8 @@
 from django.shortcuts import render, redirect
 from .models import User, Employee, Appointment
+from django.contrib import messages
+from datetime import datetime, date
+import re
 
 # Create your views here.
 
@@ -47,12 +50,15 @@ def logout(request):
     request.session.flush()
     return redirect('/')
 
+    
+def admin_panel(request):
+    return render(request, 'admin-panel.html')
 
-from django.shortcuts import render
-from django.contrib.auth.decorators import login_required
+def teller_appointments(request):
+    appointments = Appointment.objects.filter(service_type="Teller")
+    return render(request, 'teller_appointments.html', {'appointments': appointments, 'service_type': 'Teller'})
 
-@login_required
-def page_view(request):
-    user = request.user
-    appointments = user.appointment_set.all() 
-    return render(request, 'page.html', {'user': user, 'appointments': appointments})
+def customer_appointments(request):
+    appointments = Appointment.objects.filter(service_type="Customer service")
+    return render(request, 'teller_appointments.html', {'appointments': appointments, 'service_type': 'Customer'})
+

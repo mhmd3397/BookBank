@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% if service_type == 'Teller' %}Teller{% else %}Customer{% endif %} Appointments</title>
+</head>
+<body>
+    <h1>{% if service_type == 'Teller' %}Teller{% else %}Customer{% endif %} Appointments</h1>
+    <ul>
+        {% for appointment in appointments %}
+        <li>
+            <a href="{% url 'appointment_details' appointment.id %}">{{ appointment.day }} - {{ appointment.time }}</a>
+        </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
