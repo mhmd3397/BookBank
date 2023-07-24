@@ -19,7 +19,7 @@
                 <a class="navbar-brand" href="create_appointment">Book appointment</a>
             </div>
             <div>
-                <form class="form-inline my-2 my-lg-0" method="POST" action="{% url 'logout' %}">
+                <form class="form-inline my-2 my-lg-0" method="POST" action="{% url 'home' %}">
                     {% csrf_token %}
                     <div class="form-control mr-sm-2">Welcome!</div>
                     <button class="btn btn-outline-danger my-2 my-sm-0">Login</button>
@@ -44,7 +44,7 @@
                 <div class="col-sm-6 ">
                     <div class="card text-dark bg-light mb-3" style="padding: 2%; align-items: center;">
                         <h2>Book Appointment</h2>
-                        <form method=" POST" action="{% url 'login_registration' %}">
+                        <form method=" POST" action="{% url 'home' %}">
                             {% csrf_token %}
                             <div class="form-group">
                                 <label>Service Type</label>

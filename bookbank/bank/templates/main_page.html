@@ -14,7 +14,7 @@
         <div class="container-fluid">
             <a class="navbar-brand" href="{% url 'login_registration' %}">BookBank</a>
             <div>
-                <form class="form-inline my-2 my-lg-0" method="POST" action="{% url 'logout' %}">
+                <form class="form-inline my-2 my-lg-0" method="POST" action="{% url 'home' %}">
                     {% csrf_token %}
                     <div class="form-control mr-sm-2">Welcome!</div>
                     <button class="btn btn-outline-danger my-2 my-sm-0" type="submit">Login</button>
@@ -43,7 +43,7 @@
                     <a href="{% url 'customer_registration' %}"><button class="btn btn-primary" type="submit">Customer
                             Registration</button></a>
                             <br>
-                    <a class="login-link" href="{% url 'login_registration' %}">Already registered? Log in</a>
+                    <a class="login-link" href="{% url 'home' %}">Already registered? Log in</a>
                 </div>
             </div>
         </div>
