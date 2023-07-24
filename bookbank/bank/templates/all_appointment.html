@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=80vw, initial-scale=1.0">
+    <title>Home Page</title>
+    {% load static %}
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+</head>
+
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="container-fluid">
+                <div>
+                <a class="navbar-brand" href="{% url 'home' %}">Home</a>
+                <a class="navbar-brand" href="create_appointment">Book appointment</a>
+                </div>
+                <div>
+                    <form class="form-inline my-2 my-lg-0" method="POST" action="{% url 'logout' %}">
+                        {% csrf_token %}
+                        <div class="form-control mr-sm-2">Welcome!</div>
+                        <button class="btn btn-outline-danger my-2 my-sm-0">Login</button>
+                    </form>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <main>
+        <div class="container-fluid bg-secondary bg-gradient" style="width: 90%; padding: auto;">
+            
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="card-body">
+                        <h1>{% if service_type == 'Teller' %}Teller{% else %}Customer{% endif %} Appointments</h1>
+                        <p class="card-text">My appointments:</p>
+                        <!-- the appointments need to be shown from the closest one to the furthest one -->
+                        
+                        <ul>
+                        {% for appointment in appointments %}
+                        <li>
+                        <a href="{% url 'appointment_details' appointment.id %}">{{ appointment.day }} - {{ appointment.time }}</a>
+                        </li>
+                        {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="card text-dark bg-light mb-3" style="padding: 2%; align-items: center;">
+                        <form action="/details" method="post">
+                            {% csrf_token %}
+                            <p>Appointment details: </p>
+                            <p class="border">{{message}} {{appointment.service}}, {{appointment.day}} {{appointment.time}}</p> <!-- the message here will be created after clicking the hyberlink above -->                         
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+</body>
