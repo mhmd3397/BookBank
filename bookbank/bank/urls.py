@@ -16,5 +16,4 @@ urlpatterns = [
     path('edit/<int:id>', views.edit),
     path('delete/<int:id>', views.delete),
     path('logout/', views.logout, name='logout'),
-
 ]
