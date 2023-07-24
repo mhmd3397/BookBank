@@ -16,6 +16,29 @@ def main_page(request):
 
 
 def employee_registration_view(request):
+    if 'user' in request.session:
+        return redirect('home_page_customer')
+    if 'employee' in request.session:
+        return redirect('home_page_employee')
+    if request.method == 'POST':
+        errors = Employee.objects.basic_validator_registration(request.POST)
+        if errors:
+            for key, value in errors.items():
+                messages.error(request, value)
+            return redirect('employee_registration')
+        first_name = request.POST['first_name']
+        last_name = request.POST['last_name']
+        email = request.POST['email']
+        employee_id = request.POST['employee_id']
+        password = request.POST['password']
+        pw_hash = bcrypt.hashpw(password.encode(), bcrypt.gensalt()).decode()
+        employee = Employee.objects.create(first_name=first_name, last_name=last_name, email=email, employee_id=employee_id, password=pw_hash)
+        request.session['employee'] = first_name + " " + last_name
+        context = {
+            'employee': request.session['employee']
+        }
+        print(employee.first_name)
+        return redirect('home_page_employee')
     return render(request, "employee_register.html")
 
     # if 'user' not in request.session:
@@ -39,7 +62,7 @@ def customer_registration_view(request):
         email = request.POST['email']
         password = request.POST['password']
         pw_hash = bcrypt.hashpw(password.encode(), bcrypt.gensalt()).decode()
-        user = User(first_name=first_name, last_name=last_name, email=email, password=pw_hash)
+        user = User.objects.create(first_name=first_name, last_name=last_name, email=email, password=pw_hash)
         request.session['user'] = first_name + " " + last_name
         context = {
             'user': request.session['user']
