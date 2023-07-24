@@ -73,6 +73,29 @@ def customer_registration_view(request):
 
 
 def login(request):
+    if 'user' in request.session:
+        return redirect('home_page_customer')
+    if 'employee' in request.session:
+        return redirect('home_page_employee')
+    if request.method == 'POST':
+        errors = Employee.objects.basic_validator_login(request.POST)
+        if errors:
+            for key, value in errors.items():
+                messages.error(request, value)
+            return redirect('login_registration')
+        email = request.POST['email']
+        user = User.objects.get(email=email)
+        employee = Employee.objects.get(email=email)
+        if user:
+            context = {
+                'user': user
+            }
+            redirect('home_page_customer')
+        elif employee:
+            context = {
+                'employee': employee
+            }
+            redirect('home_page_employee')
     return render(request, 'login_page.html')
 
 
