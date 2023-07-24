@@ -49,16 +49,3 @@ def delete(request, id):
 def logout(request):
     request.session.flush()
     return redirect('/')
-
-    
-def admin_panel(request):
-    return render(request, 'admin-panel.html')
-
-def teller_appointments(request):
-    appointments = Appointment.objects.filter(service_type="Teller")
-    return render(request, 'teller_appointments.html', {'appointments': appointments, 'service_type': 'Teller'})
-
-def customer_appointments(request):
-    appointments = Appointment.objects.filter(service_type="Customer service")
-    return render(request, 'teller_appointments.html', {'appointments': appointments, 'service_type': 'Customer'})
-
