@@ -11,6 +11,8 @@ urlpatterns = [
          name='login_registration'),
     path('home_page_customer/', views.home_page_customer,
          name='home_page_customer'),
+    path('home_page_employee/', views.home_page_employee,
+         name='home_page_employee'),
     path('appointment_detail/<int:id>', views.appointment_details,
          name='appintment_details'),
     path('edit/<int:id>', views.edit),
