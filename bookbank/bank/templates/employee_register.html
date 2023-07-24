@@ -12,9 +12,9 @@
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid">
-            <a class="navbar-brand" href="{% url 'login_registration' %}">BookBank</a>
+            <a class="navbar-brand" href="{% url 'home' %}">BookBank</a>
             <div>
-                <form class="form-inline my-2 my-lg-0" method="POST" action="{% url 'logout' %}">
+                <form class="form-inline my-2 my-lg-0" method="POST" action="{% url 'home' %}">
                     {% csrf_token %}
                     <div class="form-control mr-sm-2">Welcome!</div>
                     <button class="btn btn-outline-danger my-2 my-sm-0" type="submit">Login</button>
@@ -37,7 +37,7 @@
             <div class="col-sm-6 ">
                 <div class="card text-dark bg-light mb-3" style="padding: 2%; align-items: center;">
                     <h2>Employee Registration</h2>
-                    <form method=" POST" action="{% url 'login_registration' %}">
+                    <form method=" POST" action="{% url 'home' %}">
                         {% csrf_token %}
                         <div class="form-group">
                             <label for="registration_first_name">First Name</label>

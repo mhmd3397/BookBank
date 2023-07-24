@@ -1,5 +1,8 @@
 from django.shortcuts import render, redirect
 from .models import User, Employee, Appointment
+from django.contrib import messages
+from datetime import datetime, date
+import re
 
 # Create your views here.
 
@@ -46,13 +49,3 @@ def delete(request, id):
 def logout(request):
     request.session.flush()
     return redirect('/')
-
-
-from django.shortcuts import render
-from django.contrib.auth.decorators import login_required
-
-@login_required
-def page_view(request):
-    user = request.user
-    appointments = user.appointment_set.all() 
-    return render(request, 'page.html', {'user': user, 'appointments': appointments})
