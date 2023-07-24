@@ -31,7 +31,7 @@
         <div class="container-fluid bg-secondary bg-gradient" style="width: 90%; padding: auto;">
             <div>
                 <div class="text-center">
-                    <p class="h4">{{user}} {{message}}</p>
+                    <p class="h4">{{user.first_name}} {{user.last_name}} {{message}}</p>
                 </div>
             </div>
             <div class="row">
@@ -41,8 +41,8 @@
                         <p class="card-text">My appointments:</p>
                         <!-- the appointments need to be shown from the closest one to the furthest one -->
                         <ul>
-                            {% for user in users %}
-                            <li><a href="{% url 'appointment_details' %}">{{user.first_name}} {{user.last_name}}</a></li>
+                            {% for appointment in appointments %}
+                            <li><a href="{% url 'appointment_details' %}">{{appointment.day}} {{appointment.time}}</a></li>
                             {% endfor %}
                         </ul>
                     </div>

@@ -41,10 +41,6 @@ def employee_registration_view(request):
         return redirect('home_page_employee')
     return render(request, "employee_register.html")
 
-    # if 'user' not in request.session:
-    #     return redirect('home')
-    # if 'employee' in request.session:
-    #     return redirect('home')
 
 def customer_registration_view(request):
     if 'user' in request.session:
@@ -63,9 +59,10 @@ def customer_registration_view(request):
         password = request.POST['password']
         pw_hash = bcrypt.hashpw(password.encode(), bcrypt.gensalt()).decode()
         user = User.objects.create(first_name=first_name, last_name=last_name, email=email, password=pw_hash)
-        request.session['user'] = first_name + " " + last_name
+        request.session['message'] = "You have registered successfully"
         context = {
-            'user': request.session['user']
+            'user': user,
+            'message': request.session['message']
         }
         print(user.first_name)
         return redirect('home_page_customer')
@@ -86,24 +83,52 @@ def login(request):
         email = request.POST['email']
         user = User.objects.get(email=email)
         employee = Employee.objects.get(email=email)
+        request.session['message'] = "You have logged in successfully"
         if user:
             context = {
-                'user': user
+                'user': user,
+                'message': request.session['message']
             }
             redirect('home_page_customer')
         elif employee:
             context = {
-                'employee': employee
+                'employee': employee,
+                'message': request.session['message']
             }
             redirect('home_page_employee')
     return render(request, 'login_page.html')
 
 
 def home_page_customer(request):
-    return render(request, 'home_page_customer.html', )
+    if 'user' not in request.session:
+        return redirect('home')
+    if 'employee' in request.session:
+        return redirect('home')
+    message = request.session.get('message')
+    user = request.session.get('user')
+    appointments = user.appointments
+    return render(request, 'home_page_customer.html', {'message': message, 'user': user, 'appointments': appointments } )
 
 def home_page_employee(request):
-    return render(request, 'home_page_employee.html', )
+    if 'user' in request.session:
+        return redirect('home')
+    if 'employee' not in request.session:
+        return redirect('home')
+    message = request.session.get('message')
+    employee = request.session.get('employee')
+    return render(request, 'home_page_employee.html', {'message': message, 'employee': employee} )
+
+def all_appointments(request):
+    if 'user' in request.session:
+        return redirect('home')
+    if 'employee' not in request.session:
+        return redirect('home')
+    appointments = Appointment.objects.all()
+    if appointments.service_type == 'Teller':
+        appointments = Appointment.objects.filter(service_type = 'Teller')
+    else:
+        appointments = Appointment.objects.filter(service_type = 'Customer service')
+    return render(request, 'all_appointment.html', {'appointments': appointments})
 
 def appointment_details(request, id):
     return render(request, 'home_page_customer.html', )
@@ -121,4 +146,4 @@ def delete(request, id):
 
 def logout(request):
     request.session.flush()
-    return redirect('/')
+    return redirect('home')
