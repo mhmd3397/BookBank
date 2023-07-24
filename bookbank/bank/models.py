@@ -110,6 +110,7 @@ class EmployeeManager(models.Manager):
                 errors['password'] = "Your email or password is incorrect."
         return errors
 
+class AppointmentManager(models.Manager):
     def basic_validator_appointment(self, postData):
         errors = {}
         # Validate Day
@@ -141,7 +142,6 @@ TIME_CHOICES = (
     ("1 PM", "1 PM"),
     ("1:30 PM", "1:30 PM"),
     ("2 PM", "2 PM"),
-    ("2:30 PM", "2:30 PM"),
 )
 
 SERVICES_CHOICES = (
@@ -166,9 +166,10 @@ class Employee(models.Model):
     last_name = models.CharField(max_length=255)
     email = models.CharField(max_length=255)
     password = models.CharField(max_length=255)
-    employee_id = models.IntegerField()
+    employee_id = models.CharField(max_length=50)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
     objects = EmployeeManager()
 
 
@@ -184,3 +185,5 @@ class Appointment(models.Model):
         Employee, related_name="employees", on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    objects = AppointmentManager()
