@@ -92,12 +92,12 @@ def login(request):
             request.session['user'] = {
                 'first_name': user.first_name
             }
-            redirect('home')
+            return redirect('home')
         elif employee:
             request.session['user'] = {
                 'first_name': employee.first_name
             }
-            redirect('home')
+            return redirect('home')
     return render(request, 'login_page.html')
 
 
