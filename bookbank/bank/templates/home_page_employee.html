@@ -20,7 +20,7 @@
             <div>
                 <form class="form-inline my-2 my-lg-0" method="POST" action="{% url 'logout' %}">
                     {% csrf_token %}
-                    <div class="form-control mr-sm-2">Welcome!</div>
+                    <div class="form-control mr-sm-2">Welcome {{employee.first_name}}!</div>
                     <button class="btn btn-outline-danger my-2 my-sm-0">Logout</button>
                 </form>
             </div>
@@ -30,6 +30,7 @@
         <div class="container-fluid bg-secondary bg-gradient" style="width: 90%; padding: auto; height: 100%;">
             <br>
             <h1>select type of services you want to check</h1>
+            <br>
             <form method="POST" action="{% url 'all_appointments' %}">
                 {% csrf_token %}
                 <div class="row d-flex justify-content-around">

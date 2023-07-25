@@ -36,7 +36,7 @@ def employee_registration_view(request):
             Employee.objects.create(first_name=first_name, last_name=last_name,
                                     email=email, employee_id=employee_id, password=pw_hash)  # noqa
             request.session['employee'] = first_name + " " + last_name
-            context = {
+            context = {  # noqa
                 'employee': request.session['employee']
             }
             return redirect('home_page_employee')
@@ -62,10 +62,10 @@ def customer_registration_view(request):
             pw_hash = bcrypt.hashpw(
                 password.encode(), bcrypt.gensalt()).decode()
             User.objects.create(first_name=first_name,
-                                last_name=last_name, email=email, password=pw_hash)
+                                last_name=last_name, email=email, password=pw_hash)  # noqa
             request.session['message'] = "You have registered successfully"
             request.session['user'] = User.objects.get(email=email)
-            context = {
+            context = {  # noqa
                 'message': request.session['message']
             }
             return redirect('home_page_customer')
@@ -89,10 +89,14 @@ def login(request):
         employee = Employee.objects.filter(email=email).first()
         request.session['message'] = "You have logged in successfully"
         if user:
-            request.session['user'] = User.objects.get(email=email)
+            request.session['user'] = {
+                'first_name': user.first_name
+            }
             return redirect('home')
         elif employee:
-            request.session['employee'] = Employee.objects.get(email=email)
+            request.session['employee'] = {
+                'first_name': employee.first_name
+            }
             return redirect('home')
     return render(request, 'login_page.html')
 

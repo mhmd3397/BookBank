@@ -12,7 +12,7 @@ class UserManager(models.Manager):
         if not first_name:
             errors['first_name'] = "First name is required."
         elif len(first_name) < 2:
-            errors['first_name'] = "First name should be at least 2 characters."
+            errors['first_name'] = "First name should be at least 2 characters."  # noqa
         # Validate Last Name
         last_name = postData.get('last_name')
         if not last_name:
