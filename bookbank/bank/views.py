@@ -89,14 +89,10 @@ def login(request):
         employee = Employee.objects.filter(email=email).first()
         request.session['message'] = "You have logged in successfully"
         if user:
-            request.session['user'] = {
-                'first_name': user.first_name
-            }
+            request.session['user'] = User.objects.get(email=email)
             return redirect('home')
         elif employee:
-            request.session['user'] = {
-                'first_name': employee.first_name
-            }
+            request.session['employee'] = Employee.objects.get(email=email)
             return redirect('home')
     return render(request, 'login_page.html')
 

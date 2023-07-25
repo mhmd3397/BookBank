@@ -14,13 +14,13 @@
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
             <div class="container-fluid">
                 <div>
-                <a class="navbar-brand" href="{% url 'home' %}">BookBank</a>
-                <a class="navbar-brand" href="create_appointment">Book appointment</a>
+                    <a class="navbar-brand" href="{% url 'home' %}">BookBank</a>
+                    <a class="navbar-brand" href="create_appointment">Book appointment</a>
                 </div>
                 <div>
                     <form class="form-inline my-2 my-lg-0" method="POST" action="{% url 'logout' %}">
                         {% csrf_token %}
-                        <div class="form-control mr-sm-2">Welcome {{first_name}}!</div>
+                        <div class="form-control mr-sm-2">Welcome {{user.first_name}}!</div>
                         <button class="btn btn-outline-danger my-2 my-sm-0">Logout</button>
                     </form>
                 </div>
@@ -42,7 +42,8 @@
                         <!-- the appointments need to be shown from the closest one to the furthest one -->
                         <ul>
                             {% for appointment in appointments %}
-                            <li><a href="{% url 'appointment_details' %}">{{appointment.day}} {{appointment.time}}</a></li>
+                            <li><a href="{% url 'appointment_details' %}">{{appointment.day}} {{appointment.time}}</a>
+                            </li>
                             {% endfor %}
                         </ul>
                     </div>
@@ -52,10 +53,15 @@
                         <form action="/details" method="post">
                             {% csrf_token %}
                             <p>Appointment details: </p>
-                            <p class="border">{{message}} {{appointment.service}}, {{appointment.day}} {{appointment.time}}</p> <!-- the message here will be created after clicking the hyberlink above -->
+                            <p class="border">{{message}} {{appointment.service}}, {{appointment.day}}
+                                {{appointment.time}}</p>
+                            <!-- the message here will be created after clicking the hyberlink above -->
                             <!-- the message is: you have successfuly submitted your appointment for -->
-                            <button formaction="/edit/{appointment.id}" class="btn btn-primary">Edit appointment</button> <!-- the formaction can be updated when the backend is implemnted-->
-                            <button formaction="/delete/{appointment.id}" class="btn btn-primary">Delete appointment</button>
+                            <button formaction="/edit/{appointment.id}" class="btn btn-primary">Edit
+                                appointment</button>
+                            <!-- the formaction can be updated when the backend is implemnted-->
+                            <button formaction="/delete/{appointment.id}" class="btn btn-primary">Delete
+                                appointment</button>
                         </form>
                     </div>
                 </div>
