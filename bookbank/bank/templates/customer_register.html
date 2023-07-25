@@ -37,7 +37,7 @@
             <div class="col-sm-6 ">
                 <div class="card text-dark bg-light mb-3" style="padding: 2%; align-items: center;">
                     <h2>Customer Registration</h2>
-                    <form method=" POST" action="{% url 'home' %}">
+                    <form method=" POST" action="{% url 'customer_registration' %}">
                         {% csrf_token %}
                         <div class="form-group">
                             <label for="registration_first_name">First Name</label>
