@@ -32,9 +32,9 @@ def employee_registration_view(request):
         employee_id = request.POST['employee_id']
         password = request.POST['password']
         pw_hash = bcrypt.hashpw(password.encode(), bcrypt.gensalt()).decode()
-        employee = Employee.objects.create(first_name=first_name, last_name=last_name, email=email, employee_id=employee_id, password=pw_hash)
+        Employee.objects.create(first_name=first_name, last_name=last_name, email=email, employee_id=employee_id, password=pw_hash)
         request.session['employee'] = first_name + " " + last_name
-        request.session['firs_name'] = first_name
+        request.session['first_name'] = first_name
         context = {
             'employee': request.session['employee']
         }
@@ -58,14 +58,12 @@ def customer_registration_view(request):
         email = request.POST['email']
         password = request.POST['password']
         pw_hash = bcrypt.hashpw(password.encode(), bcrypt.gensalt()).decode()
-        user = User.objects.create(first_name=first_name, last_name=last_name, email=email, password=pw_hash)
+        User.objects.create(first_name=first_name, last_name=last_name, email=email, password=pw_hash)
         request.session['message'] = "You have registered successfully"
         request.session['user'] = first_name + " " + last_name
         context = {
-            'user': user,
             'message': request.session['message']
         }
-        print(user.first_name)
         return redirect('home_page_customer')
     return render(request, 'customer_register.html')
 
@@ -82,8 +80,9 @@ def login(request):
                 messages.error(request, value)
             return redirect('login_registration')
         email = request.POST['email']
+        print(email)
         user = User.objects.get(email=email)
-        employee = Employee.objects.get(email=email)
+        # employee = Employee.objects.get(email=email)
         request.session['message'] = "You have logged in successfully"
         if user:
             context = {
