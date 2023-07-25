@@ -16,19 +16,19 @@
         <div class="container-fluid">
             <div>
                 <a class="navbar-brand" href="{% url 'home' %}">Home</a>
-                <a class="navbar-brand" href="create_appointment">Book appointment</a>
             </div>
             <div>
-                <form class="form-inline my-2 my-lg-0" method="POST" action="{% url 'home' %}">
+                <form class="form-inline my-2 my-lg-0" method="POST" action="{% url 'logout' %}">
                     {% csrf_token %}
                     <div class="form-control mr-sm-2">Welcome!</div>
-                    <button class="btn btn-outline-danger my-2 my-sm-0">Login</button>
+                    <button class="btn btn-outline-danger my-2 my-sm-0">Logout</button>
                 </form>
             </div>
         </div>
     </nav>
     <main>
         <div class="container-fluid bg-secondary bg-gradient" style="width: 90%; padding: auto; height: 100%;">
+            <br>
             <h1>select type of services you want to check</h1>
             <form method="POST" action="{% url 'all_appointments' %}">
                 {% csrf_token %}
