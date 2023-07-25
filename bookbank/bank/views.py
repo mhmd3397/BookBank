@@ -37,7 +37,6 @@ def employee_registration_view(request):
         context = {
             'employee': request.session['employee']
         }
-        print(employee.first_name)
         return redirect('home_page_employee')
     return render(request, "employee_register.html")
 

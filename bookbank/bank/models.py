@@ -12,7 +12,7 @@ class UserManager(models.Manager):
         if not first_name:
             errors['first_name'] = "First name is required."
         elif len(first_name) < 2:
-            errors['first_name'] = "First name should be at least 2 characters."  # noqa
+            errors['first_name'] = "First name should be at least 2 characters." 
         # Validate Last Name
         last_name = postData.get('last_name')
         if not last_name:
@@ -41,6 +41,7 @@ class UserManager(models.Manager):
             errors['password'] = "Password should be at least 8 characters."
         elif password != confirm_password:
             errors['confirm_password'] = "Passwords do not match."
+        return errors
 
 
 class EmployeeManager(models.Manager):
@@ -87,6 +88,7 @@ class EmployeeManager(models.Manager):
             errors['employee_id'] = "employee id is required."
         elif not employee_id_REGEX.match(postData['employee_id']):
             errors['employee_id'] = "Invalid employee id."
+        return errors
 
     def basic_validator_login(self, postData):
         errors = {}
