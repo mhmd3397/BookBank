@@ -50,9 +50,7 @@
                         {% if messages %}
                         <ul class="messages">
                             {% for message in messages %}
-                            {%if "login" in message.tags %}
                             <li class="alert alert-danger mt-4">{{ message }}</li>
-                            {% endif %}
                             {% endfor %}
                         </ul>
                         {% endif %}

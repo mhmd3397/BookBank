@@ -1,8 +1,6 @@
 from django.shortcuts import render, redirect
 from .models import User, Employee, Appointment
 from django.contrib import messages
-from datetime import datetime, date
-import re
 import bcrypt
 
 # Create your views here.
@@ -66,7 +64,7 @@ def customer_registration_view(request):
             User.objects.create(first_name=first_name,
                                 last_name=last_name, email=email, password=pw_hash)
             request.session['message'] = "You have registered successfully"
-            request.session['user'] = first_name + " " + last_name
+            request.session['user'] = User.objects.get(email=email)
             context = {
                 'message': request.session['message']
             }
@@ -87,21 +85,19 @@ def login(request):
             return redirect('login_registration')
         email = request.POST['email']
         print(email)
-        user = User.objects.get(email=email)
-        # employee = Employee.objects.get(email=email)
+        user = User.objects.filter(email=email).first()
+        employee = Employee.objects.filter(email=email).first()
         request.session['message'] = "You have logged in successfully"
         if user:
-            context = {
-                'user': user,
-                'message': request.session['message']
+            request.session['user'] = {
+                'first_name': user.first_name
             }
-            redirect('home_page_customer')
+            redirect('home')
         elif employee:
-            context = {
-                'employee': employee,
-                'message': request.session['message']
+            request.session['user'] = {
+                'first_name': employee.first_name
             }
-            redirect('home_page_employee')
+            redirect('home')
     return render(request, 'login_page.html')
 
 
@@ -112,11 +108,9 @@ def home_page_customer(request):
         return redirect('home')
     message = request.session.get('message')
     logged_user = request.session.get('user')
-    first_name = request.session.get('first_name')
-    user = User.objects.filter(first_name=first_name)
     appointments = Appointment.objects.all()
     for appointment in appointments:
-        user.appointments
+        logged_user.appointments
     return render(request, 'home_page_customer.html', {'message': message, 'user': logged_user, 'appointments': appointments})  # noqa
 
 
@@ -127,7 +121,7 @@ def home_page_employee(request):
         return redirect('home')
     message = request.session.get('message')
     employee = request.session.get('employee')
-    return render(request, 'home_page_employee.html', {'message': message, 'employee': employee})
+    return render(request, 'home_page_employee.html', {'message': message, 'employee': employee})  # noqa
 
 
 def all_appointments(request):

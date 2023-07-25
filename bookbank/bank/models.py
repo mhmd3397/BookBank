@@ -12,7 +12,7 @@ class UserManager(models.Manager):
         if not first_name:
             errors['first_name'] = "First name is required."
         elif len(first_name) < 2:
-            errors['first_name'] = "First name should be at least 2 characters." 
+            errors['first_name'] = "First name should be at least 2 characters."
         # Validate Last Name
         last_name = postData.get('last_name')
         if not last_name:
@@ -106,17 +106,18 @@ class EmployeeManager(models.Manager):
             if not existing_Employee:
                 errors['email'] = "Your email or password is incorrect."
         # Validate password
-        user = User.objects.filter(email=email)
-        employee = Employee.objects.filter(email=email)
+        user = User.objects.filter(email=email).first()
+        employee = Employee.objects.filter(email=email).first()
         if user:
-            logged_user = user[0]
+            logged_user = User.objects.get(email=email)
             if not bcrypt.checkpw(postData.get('password').encode(), logged_user.password.encode()):  # noqa
                 errors['password'] = "Your email or password is incorrect."
         if employee:
-            logged_employee = employee[0]
+            logged_employee = Employee.objects.get(email=email)
             if not bcrypt.checkpw(postData.get('password').encode(), logged_employee.password.encode()):  # noqa
                 errors['password'] = "Your email or password is incorrect."
         return errors
+
 
 class AppointmentManager(models.Manager):
     def basic_validator_appointment(self, postData):
