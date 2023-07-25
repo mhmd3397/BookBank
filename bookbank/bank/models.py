@@ -29,8 +29,11 @@ class UserManager(models.Manager):
             errors['email'] = "Invalid email format."
         else:
             # Check if a user with the same email already exists
+            existing_employee = Employee.objects.filter(email=email).first()
             existing_user = User.objects.filter(email=email).first()
             if existing_user:
+                errors['email'] = "A user with this email already exists."
+            if existing_employee:
                 errors['email'] = "A user with this email already exists."
         # Validate Password
         password = postData.get('password')
@@ -69,8 +72,11 @@ class EmployeeManager(models.Manager):
             errors['email'] = "Invalid email format."
         else:
             # Check if a user with the same email already exists
+            existing_employee = Employee.objects.filter(email=email).first()
             existing_user = User.objects.filter(email=email).first()
             if existing_user:
+                errors['email'] = "A user with this email already exists."
+            if existing_employee:
                 errors['email'] = "A user with this email already exists."
         # Validate Password
         password = postData.get('password')
