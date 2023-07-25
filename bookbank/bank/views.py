@@ -135,12 +135,13 @@ def all_appointments(request):
         return redirect('home')
     if 'employee' not in request.session:
         return redirect('home')
-    appointments = Appointment.objects.all()
-    if 'Teller' in request.post:
-        appointments = Appointment.objects.filter(service_type='Teller')
-    else:
-        appointments = Appointment.objects.filter(
-            service_type='Customer service')
+    if request.method == 'POST':
+        appointments = Appointment.objects.all()
+        if 'Teller' in request.post:
+            appointments = Appointment.objects.filter(service_type='Teller')
+        else:
+            appointments = Appointment.objects.filter(
+                service_type='Customer service')
     return render(request, 'all_appointment.html', {'appointments': appointments})  # noqa
 
 

@@ -30,7 +30,7 @@
     <main>
         <div class="container-fluid bg-secondary bg-gradient" style="width: 90%; padding: auto; height: 100%;">
             <h1>select type of services you want to check</h1>
-            <form action="{% url 'all_appointments' %}" method='POST'>
+            <form method="POST" action="{% url 'all_appointments' %}">
                 {% csrf_token %}
                 <div class="row d-flex justify-content-around">
                     <div class="col-sm-6 " style="width: 40%; padding: auto;">
