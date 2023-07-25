@@ -32,7 +32,8 @@
             <div class="row">
                 <div class="col-sm-6">
                     <div class="card-body">
-                        <h1>{% if service_type == 'Teller' %}Teller{% else %}Customer{% endif %} Appointments</h1>
+                        <h1>{{appointments.service_type}}</h1>
+                        {% comment %} <h1>{% if service_type == 'Teller' %}Teller{% else %}Customer{% endif %} Appointments</h1> {% endcomment %}
                         <p class="card-text">My appointments:</p>
                         <!-- the appointments need to be shown from the closest one to the furthest one -->
                         

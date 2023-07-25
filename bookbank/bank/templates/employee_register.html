@@ -37,7 +37,7 @@
             <div class="col-sm-6 ">
                 <div class="card text-dark bg-light mb-3" style="padding: 2%; align-items: center;">
                     <h2>Employee Registration</h2>
-                    <form method="POST" action="{% url 'home' %}">
+                    <form method="POST" action="{% url 'employee_registration' %}">
                         {% csrf_token %}
                         <div class="form-group">
                             <label for="registration_first_name">First Name</label>
@@ -70,9 +70,7 @@
                         {% if messages %}
                         <ul class="messages">
                             {% for message in messages %}
-                            {%if "register" in message.tags %}
                             <li class="alert alert-danger mt-4">{{ message }}</li>
-                            {% endif %}
                             {% endfor %}
                         </ul>
                         {% endif %}

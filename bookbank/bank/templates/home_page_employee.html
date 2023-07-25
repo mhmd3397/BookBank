@@ -30,21 +30,23 @@
     <main>
         <div class="container-fluid bg-secondary bg-gradient" style="width: 90%; padding: auto; height: 100%;">
             <h1>select type of services you want to check</h1>
-            <div class="row d-flex justify-content-around">
-                <div class="col-sm-6 " style="width: 40%; padding: auto;">
-                    <div class="card text-dark bg-light mb-3" style=" padding: 2%; align-items: center;">
-                        <button style="width: 100%; height: 120px; padding: auto;" type="submit"
-                            action="{% url 'all_appointments' %}" class="btn btn-primary" name="registration_submit">Teller</button>
+            <form action="{% url 'all_appointments' %}" method='POST'>
+                {% csrf_token %}
+                <div class="row d-flex justify-content-around">
+                    <div class="col-sm-6 " style="width: 40%; padding: auto;">
+                        <div class="card text-dark bg-light mb-3" style=" padding: 2%; align-items: center;">
+                            <button style="width: 100%; height: 120px; padding: auto;" type="submit" class="btn btn-primary"
+                                name="Teller">Teller</button>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 " style="width: 40%; padding: auto;">
+                        <div class="card text-dark bg-light mb-3" style=" padding: 2%; align-items: center;">
+                            <button style="width: 100%; height: 120px; padding: auto;" type="submit" class="btn btn-primary"
+                                name="Customer_Services">Customer Services</button>
+                        </div>
                     </div>
                 </div>
-                <div class="col-sm-6 " style="width: 40%; padding: auto;">
-                    <div class="card text-dark bg-light mb-3" style=" padding: 2%; align-items: center;">
-                        <button style="width: 100%; height: 120px; padding: auto;" type="submit"
-                            action="{% url 'all_appointments' %}" class="btn btn-primary" name="registration_submit">Customer
-                            Services</button>
-                    </div>
-                </div>
-            </div>
+            </form>
         </div>
     </main>
 

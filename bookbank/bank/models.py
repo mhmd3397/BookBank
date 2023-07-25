@@ -88,7 +88,7 @@ class EmployeeManager(models.Manager):
         elif password != confirm_password:
             errors['confirm_password'] = "Passwords do not match."
         # validate Employee_id
-        employee_id_REGEX = re.compile(r"^[A-Z\d]{1}[A-Z\d._/\-]{49}$")
+        employee_id_REGEX = re.compile(r'^[a-zA-Z]{1}+[0-9]{5}+$')
         employee_id = postData.get('employee_id')
         if not employee_id:
             errors['employee_id'] = "employee id is required."

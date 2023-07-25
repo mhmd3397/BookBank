@@ -27,20 +27,21 @@ def employee_registration_view(request):
             for key, value in errors.items():
                 messages.error(request, value)
             return redirect('employee_registration')
-        first_name = request.POST['first_name']
-        last_name = request.POST['last_name']
-        email = request.POST['email']
-        employee_id = request.POST['employee_id']
-        password = request.POST['password']
-        pw_hash = bcrypt.hashpw(password.encode(), bcrypt.gensalt()).decode()
-        Employee.objects.create(first_name=first_name, last_name=last_name,
-                                email=email, employee_id=employee_id, password=pw_hash)  # noqa
-        request.session['employee'] = first_name + " " + last_name
-        request.session['first_name'] = first_name
-        context = {
-            'employee': request.session['employee']
-        }
-        return redirect('home_page_employee')
+        else:
+            first_name = request.POST['first_name']
+            last_name = request.POST['last_name']
+            email = request.POST['email']
+            employee_id = request.POST['employee_id']
+            password = request.POST['password']
+            pw_hash = bcrypt.hashpw(
+                password.encode(), bcrypt.gensalt()).decode()
+            Employee.objects.create(first_name=first_name, last_name=last_name,
+                                    email=email, employee_id=employee_id, password=pw_hash)  # noqa
+            request.session['employee'] = first_name + " " + last_name
+            context = {
+                'employee': request.session['employee']
+            }
+            return redirect('home_page_employee')
     return render(request, "employee_register.html")
 
 
@@ -55,19 +56,21 @@ def customer_registration_view(request):
             for key, value in errors.items():
                 messages.error(request, value)
             return redirect('customer_registration')
-        first_name = request.POST['first_name']
-        last_name = request.POST['last_name']
-        email = request.POST['email']
-        password = request.POST['password']
-        pw_hash = bcrypt.hashpw(password.encode(), bcrypt.gensalt()).decode()
-        User.objects.create(first_name=first_name,
-                            last_name=last_name, email=email, password=pw_hash)
-        request.session['message'] = "You have registered successfully"
-        request.session['user'] = first_name + " " + last_name
-        context = {
-            'message': request.session['message']
-        }
-        return redirect('home_page_customer')
+        else:
+            first_name = request.POST['first_name']
+            last_name = request.POST['last_name']
+            email = request.POST['email']
+            password = request.POST['password']
+            pw_hash = bcrypt.hashpw(
+                password.encode(), bcrypt.gensalt()).decode()
+            User.objects.create(first_name=first_name,
+                                last_name=last_name, email=email, password=pw_hash)
+            request.session['message'] = "You have registered successfully"
+            request.session['user'] = first_name + " " + last_name
+            context = {
+                'message': request.session['message']
+            }
+            return redirect('home_page_customer')
     return render(request, 'customer_register.html')
 
 
@@ -133,7 +136,7 @@ def all_appointments(request):
     if 'employee' not in request.session:
         return redirect('home')
     appointments = Appointment.objects.all()
-    if appointments.service_type == 'Teller':
+    if 'Teller' in request.post:
         appointments = Appointment.objects.filter(service_type='Teller')
     else:
         appointments = Appointment.objects.filter(
