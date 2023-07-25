@@ -137,12 +137,14 @@ def all_appointments(request):
         return redirect('home')
     if request.method == 'POST':
         appointments = Appointment.objects.all()
-        if 'Teller' in request.post:
+        if 'Teller' in request.POST:
             appointments = Appointment.objects.filter(service_type='Teller')
+            service_type = "Teller"
         else:
             appointments = Appointment.objects.filter(
                 service_type='Customer service')
-    return render(request, 'all_appointment.html', {'appointments': appointments})  # noqa
+            service_type = "Customer service"
+    return render(request, 'all_appointment.html', {'appointments': appointments, 'service_type': service_type})  # noqa
 
 
 def appointment_details(request, id):

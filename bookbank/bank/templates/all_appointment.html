@@ -14,7 +14,7 @@
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
             <div class="container-fluid">
                 <div>
-                <a class="navbar-brand" href="{% url 'home' %}">Home</a>
+                    <a class="navbar-brand" href="{% url 'home' %}">Home</a>
                 </div>
                 <div>
                     <form class="form-inline my-2 my-lg-0" method="POST" action="{% url 'logout' %}">
@@ -28,21 +28,23 @@
     </header>
     <main>
         <div class="container-fluid bg-secondary bg-gradient" style="width: 90%; padding: auto;">
-            
+
             <div class="row">
                 <div class="col-sm-6">
                     <div class="card-body">
-                        <h1>{{appointments.service_type}}</h1>
-                        {% comment %} <h1>{% if service_type == 'Teller' %}Teller{% else %}Customer{% endif %} Appointments</h1> {% endcomment %}
-                        <p class="card-text">My appointments:</p>
+                        <h1>{{service_type}}</h1>
+                        {% comment %} <h1>{% if service_type == 'Teller' %}Teller{% else %}Customer{% endif %}
+                            Appointments</h1> {% endcomment %}
+                        <p class="card-text">{{service_type}} appointments:</p>
                         <!-- the appointments need to be shown from the closest one to the furthest one -->
-                        
+
                         <ul>
-                        {% for appointment in appointments %}
-                        <li>
-                        <a href="{% url 'appointment_details' appointment.id %}">{{ appointment.day }} - {{ appointment.time }}</a>
-                        </li>
-                        {% endfor %}
+                            {% for appointment in appointments %}
+                            <li>
+                                <a href="{% url 'appointment_details' appointment.id %}">{{ appointment.day }} -
+                                    {{ appointment.time }}</a>
+                            </li>
+                            {% endfor %}
                         </ul>
                     </div>
                 </div>
@@ -51,7 +53,9 @@
                         <form action="/details" method="post">
                             {% csrf_token %}
                             <p>Appointment details: </p>
-                            <p class="border">{{message}} {{appointment.service}}, {{appointment.day}} {{appointment.time}}</p> <!-- the message here will be created after clicking the hyberlink above -->                         
+                            <p class="border">{{message}} {{appointment.service}}, {{appointment.day}}
+                                {{appointment.time}}</p>
+                            <!-- the message here will be created after clicking the hyberlink above -->
                         </form>
                     </div>
                 </div>
