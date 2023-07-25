@@ -34,6 +34,7 @@ def employee_registration_view(request):
         pw_hash = bcrypt.hashpw(password.encode(), bcrypt.gensalt()).decode()
         employee = Employee.objects.create(first_name=first_name, last_name=last_name, email=email, employee_id=employee_id, password=pw_hash)
         request.session['employee'] = first_name + " " + last_name
+        request.session['firs_name'] = first_name
         context = {
             'employee': request.session['employee']
         }
@@ -59,6 +60,7 @@ def customer_registration_view(request):
         pw_hash = bcrypt.hashpw(password.encode(), bcrypt.gensalt()).decode()
         user = User.objects.create(first_name=first_name, last_name=last_name, email=email, password=pw_hash)
         request.session['message'] = "You have registered successfully"
+        request.session['user'] = first_name + " " + last_name
         context = {
             'user': user,
             'message': request.session['message']
@@ -104,9 +106,13 @@ def home_page_customer(request):
     if 'employee' in request.session:
         return redirect('home')
     message = request.session.get('message')
-    user = request.session.get('user')
-    appointments = user.appointments
-    return render(request, 'home_page_customer.html', {'message': message, 'user': user, 'appointments': appointments } )
+    logged_user = request.session.get('user')
+    first_name = request.session.get('first_name')
+    user = User.objects.filter(first_name = first_name)
+    appointments = Appointment.objects.all()
+    for appointment in appointments:
+        user.appointments
+    return render(request, 'home_page_customer.html', {'message': message, 'user': logged_user, 'appointments': appointments } )
 
 def home_page_employee(request):
     if 'user' in request.session:
