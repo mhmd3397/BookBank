@@ -74,9 +74,9 @@ def customer_registration_view(request):
 
 def login(request):
     if 'user' in request.session:
-        return redirect('home_page_customer')
+        return redirect('home')
     if 'employee' in request.session:
-        return redirect('home_page_employee')
+        return redirect('home')
     if request.method == 'POST':
         errors = Employee.objects.basic_validator_login(request.POST)
         if errors:
