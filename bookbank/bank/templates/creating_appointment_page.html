@@ -46,10 +46,13 @@
                         <form method="POST" action="{% url 'create_appointment' %}">
                             {% csrf_token %}
                             <div class="form-group">
-                                <label>Service Type</label>
-                                <select class="form-select" aria-label="Default select example" id="service_type" name="service_type">
-                                    <option value="2">Teller</option>
-                                    <option value="3">Customer Services</option>
+                                <label for="service_type">Select a Service Type:</label>
+                                <select id="service_type" name="service_type" required>
+                                    {% for choice_value, choice_label in service_choices %}
+                                        <option value="{{ choice_value }}" {% if choice_value == appointment.service_type %}selected{% endif %}>
+                                            {{ choice_label }}
+                                        </option>
+                                    {% endfor %}
                                 </select>
                             </div>
                             <div class="form-group">
@@ -58,13 +61,13 @@
                                     required>
                             </div>
                             <div class="form-group">
-                                <label>Appointment Time</label>
-                                <select class="form-select" aria-label="Default select example" id="time" name="time">
-                                    <option value="2">8:30</option>
-                                    <option value="3">9:00</option>
-                                    {% comment %}
-                                    here we will put for loop with filtered times that is available
-                                    {% endcomment %}
+                                <label for="appointment_time">Appointment Time</label>
+                                <select id="time" name="time" required>
+                                    {% for choice_value, choice_label in time_choices %}
+                                        <option value="{{ choice_value }}" {% if choice_value == appointment.time %}selected{% endif %}>
+                                            {{ choice_label }}
+                                        </option>
+                                    {% endfor %}
                                 </select>
                             </div>
                             {% if messages %}

@@ -42,8 +42,8 @@
                         <!-- the appointments need to be shown from the closest one to the furthest one -->
                         <ul>
                             {% for user in users %}
-                                {% for appointment in user.appointments.all %}
-                                <li><a href="{% url 'appointment_details' %}">{{appointment.day}} {{appointment.time}}</a>
+                                {% for appointment in user.appointments.all|dictsort:'time'|dictsort:'day' %}
+                                <li><a href="{% url 'home' %}">{{appointment.day}} {{appointment.time}}</a>
                                 </li>
                                 {% endfor %}
                             {% endfor %}

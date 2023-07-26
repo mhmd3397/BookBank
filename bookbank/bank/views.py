@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .models import User, Employee, Appointment
+from .models import User, Employee, Appointment, SERVICES_CHOICES, TIME_CHOICES
 from django.contrib import messages
 import bcrypt
 
@@ -112,7 +112,7 @@ def home_page_customer(request):
     email = request.session.get('email')
     users = User.objects.filter(email = email)
     appointments = Appointment.objects.all()
-    return render(request, 'home_page_customer.html', {'message': message, 'users': users,})  # noqa
+    return render(request, 'home_page_customer.html', {'message': message, 'users': users, 'appointments': appointments})  # noqa
 
 
 def home_page_employee(request):
@@ -147,6 +147,8 @@ def create_appointment(request):
         return redirect('home')
     if 'employee' in request.session:
         return redirect('home')
+    service_choices = SERVICES_CHOICES
+    time_choices = TIME_CHOICES
     if request.method == 'POST':
         errors = Appointment.objects.basic_validator_appointment(request.POST)
         if errors:
@@ -156,13 +158,14 @@ def create_appointment(request):
         else:
             email = request.session.get('email')
             user = User.objects.get(email = email)
+            print(user.id)
             Appointment.objects.create(day = request.POST.get('appointment_day'),
                                         service_type = request.POST.get('service_type'),
                                         time = request.POST.get('time'),
                                         user = User.objects.get(id = user.id)
                                     )
             return redirect('home_page_customer')
-    return render(request, 'creating_appointment_page.html', )
+    return render(request, 'creating_appointment_page.html', {'service_choices': service_choices, 'time_choices': time_choices})
 
 def appointment_details(request, id):
     return render(request, 'home_page_customer.html', )

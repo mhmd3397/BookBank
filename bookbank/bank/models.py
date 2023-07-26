@@ -188,7 +188,7 @@ class Appointment(models.Model):
     time = models.CharField(max_length=255, choices=TIME_CHOICES)
     service_type = models.CharField(
         max_length=255, choices=SERVICES_CHOICES, default="Teller")
-    user = models.ForeignKey(User, related_name="users",
+    user = models.ForeignKey(User, related_name="appointments",
                              on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
