@@ -43,7 +43,7 @@
                         <ul>
                             {% for user in users %}
                                 {% for appointment in user.appointments.all|dictsort:'time'|dictsort:'day' %}
-                                <li><a href="{% url 'home' %}">{{appointment.day}} {{appointment.time}}</a>
+                                <li><a href="{% url 'home' %}">{{appointment.day}} {{appointment.time}}</a> <!-- adjust the url -->
                                 </li>
                                 {% endfor %}
                             {% endfor %}

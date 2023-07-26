@@ -41,7 +41,7 @@
                         <ul>
                             {% for appointment in appointments %}
                             <li>
-                                <a href="{% url 'appointment_details' appointment.id %}">{{ appointment.day }} -
+                                <a href="{% url 'home' %}">{{ appointment.day }} - <!-- adjust the url -->
                                     {{ appointment.time }}</a>
                             </li>
                             {% endfor %}
@@ -53,9 +53,8 @@
                         <form action="/details" method="post">
                             {% csrf_token %}
                             <p>Appointment details: </p>
-                            <p class="border">{{message}} {{appointment.service}}, {{appointment.day}}
+                            <p class="border">{{appointment.service}}, {{appointment.day}}
                                 {{appointment.time}}</p>
-                            <!-- the message here will be created after clicking the hyberlink above -->
                         </form>
                     </div>
                 </div>
