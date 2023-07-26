@@ -123,17 +123,17 @@ class AppointmentManager(models.Manager):
     def basic_validator_appointment(self, postData):
         errors = {}
         # Validate Day
-        day = postData.get('day')
+        day = postData.get('appointment_day')
         if not day:
-            errors['day'] = "Day Feild is required."
+            errors['appointment_day'] = "Day Feild is required."
         if day:
             try:
                 day_date = datetime.strptime(day, '%Y-%m-%d').date()
                 today = date.today()
                 if (today - day_date).days > 0:
-                    errors['day'] = "Appointment cannot be in the Past."
+                    errors['appointment_day'] = "Appointment cannot be in the Past."
             except ValueError:
-                errors['day'] = "Invalid date format."
+                errors['appointment_day'] = "Invalid date format."
         return errors
 
 
@@ -190,8 +190,6 @@ class Appointment(models.Model):
         max_length=255, choices=SERVICES_CHOICES, default="Teller")
     user = models.ForeignKey(User, related_name="users",
                              on_delete=models.CASCADE)
-    employee = models.ForeignKey(
-        Employee, related_name="employees", on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

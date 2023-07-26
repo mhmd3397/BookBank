@@ -15,7 +15,7 @@
             <div class="container-fluid">
                 <div>
                     <a class="navbar-brand" href="{% url 'home' %}">BookBank</a>
-                    <a class="navbar-brand" href="create_appointment">Book appointment</a>
+                    <a class="navbar-brand" href="{% url 'create_appointment' %}">Book appointment</a>
                 </div>
                 <div>
                     <form class="form-inline my-2 my-lg-0" method="POST" action="{% url 'logout' %}">
@@ -41,9 +41,11 @@
                         <p class="card-text">My appointments:</p>
                         <!-- the appointments need to be shown from the closest one to the furthest one -->
                         <ul>
-                            {% for appointment in appointments %}
-                            <li><a href="{% url 'appointment_details' %}">{{appointment.day}} {{appointment.time}}</a>
-                            </li>
+                            {% for user in users %}
+                                {% for appointment in user.appointments.all %}
+                                <li><a href="{% url 'appointment_details' %}">{{appointment.day}} {{appointment.time}}</a>
+                                </li>
+                                {% endfor %}
                             {% endfor %}
                         </ul>
                     </div>

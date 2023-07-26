@@ -17,6 +17,8 @@ urlpatterns = [
          name='appintment_details'),
     path('all_appointments/', views.all_appointments,
          name='all_appointments'),
+    path('create_appointment', views.create_appointment,
+         name='create_appointment'),
     path('edit/<int:id>', views.edit),
     path('delete/<int:id>', views.delete),
     path('logout/', views.logout, name='logout'),

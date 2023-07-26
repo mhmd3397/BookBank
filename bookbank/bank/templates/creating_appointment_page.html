@@ -43,11 +43,11 @@
                 <div class="col-sm-6 ">
                     <div class="card text-dark bg-light mb-3" style="padding: 2%; align-items: center;">
                         <h2>Book Appointment</h2>
-                        <form method=" POST" action="{% url 'home' %}">
+                        <form method="POST" action="{% url 'create_appointment' %}">
                             {% csrf_token %}
                             <div class="form-group">
                                 <label>Service Type</label>
-                                <select class="form-select" aria-label="Default select example">
+                                <select class="form-select" aria-label="Default select example" id="service_type" name="service_type">
                                     <option value="2">Teller</option>
                                     <option value="3">Customer Services</option>
                                 </select>
@@ -59,7 +59,7 @@
                             </div>
                             <div class="form-group">
                                 <label>Appointment Time</label>
-                                <select class="form-select" aria-label="Default select example">
+                                <select class="form-select" aria-label="Default select example" id="time" name="time">
                                     <option value="2">8:30</option>
                                     <option value="3">9:00</option>
                                     {% comment %}
@@ -70,13 +70,11 @@
                             {% if messages %}
                             <ul class="messages">
                                 {% for message in messages %}
-                                {%if "register" in message.tags %}
                                 <li class="alert alert-danger mt-4">{{ message }}</li>
-                                {% endif %}
                                 {% endfor %}
                             </ul>
                             {% endif %}
-                            <button type="submit" class="btn btn-primary" name="registration_submit">Register</button>
+                            <button class="btn btn-primary" name="registration_submit">Register</button>
                         </form>
                     </div>
                 </div>
