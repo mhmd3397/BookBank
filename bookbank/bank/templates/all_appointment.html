@@ -36,7 +36,7 @@
                         <p class="card-text">{{service_type}} appointments:</p>
                         <!-- the appointments need to be shown from the closest one to the furthest one -->
                         <ul>
-                            {% for appointment in appointments %}
+                            {% for appointment in appointments|dictsort:'time'|dictsort:'day' %}
                             <li>
                                 <a href="#" class="appointment-link"
                                     data-appointment-id="{{ appointment.id }}">{{ appointment.day }} -
@@ -57,40 +57,6 @@
     </main>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-    <script>
-        $(document).ready(function () {
-            // Event listener for appointment link clicks
-            $('.appointment-link').click(function (e) {
-                e.preventDefault();
-                const appointmentId = $(this).data('appointment-id');
-                fetchAppointmentDetails(appointmentId);
-            });
-            // Function to fetch appointment details using Ajax
-            function fetchAppointmentDetails(appointmentId) {
-                $.ajax({
-                    url: `/all_appointments/${appointmentId}/`, // Replace with the URL of the server endpoint to fetch appointment details
-                    type: 'GET',
-                    dataType: 'json',
-                    success: function (data) {
-                        // This function will be executed when the request is successful
-                        // 'data' contains the response from the server (appointment details)
-                        const appointmentDetails = `
-                            <p>${data.service_type}, ${data.day} ${data.time}</p>
-                            <!-- Additional appointment details can be displayed here -->
-                        `;
-                        $('#appointment-details').html(appointmentDetails);
-                    },
-                    error: function (xhr, status, error) {
-                        // This function will be executed if there's an error with the request
-                        console.error(error);
-                        // You can display an error message if needed
-                        $('#appointment-details').html(
-                        '<p>Error fetching appointment details.</p>');
-                    }
-                });
-            }
-        });
-    </script>
 </body>
 
 </html>
