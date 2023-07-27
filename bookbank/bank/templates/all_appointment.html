@@ -75,7 +75,7 @@
                         // This function will be executed when the request is successful
                         // 'data' contains the response from the server (appointment details)
                         const appointmentDetails = `
-                            <p>${data.service_type}, ${data.day} ${data.time}</p>
+                        <p>This appointment is for ${data.service_type}, on ${data.day}, at ${data.time}.</p>
                             <!-- Additional appointment details can be displayed here -->
                         `;
                         $('#appointment-details').html(appointmentDetails);
@@ -85,7 +85,7 @@
                         console.error(error);
                         // You can display an error message if needed
                         $('#appointment-details').html(
-                        '<p>Error fetching appointment details.</p>');
+                            '<p>Error fetching appointment details.</p>');
                     }
                 });
             }

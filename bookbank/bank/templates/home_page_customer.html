@@ -33,11 +33,13 @@
     </header>
     <main>
         <div class="container-fluid bg-secondary bg-gradient" style="width: 90%; padding: auto;">
+            <br>
             <div>
                 <div class="text-center">
                     <p class="h4">{{user.first_name}} {{user.last_name}} {{message}}</p>
                 </div>
             </div>
+            <br>
             <div class="row">
                 <div class="col-sm-6">
                     <div class="card-body">
@@ -59,7 +61,7 @@
                 </div>
                 <div class="col-sm-6">
                     <div class="card text-dark bg-light mb-3" style="padding: 2%; align-items: center;">
-                        <p>Appointment details:</p>
+                        <h3>Appointment details:</h3>
                         <div id="appointment-details">
                             <!-- Appointment details fetched using Ajax will be displayed here -->
                         </div>
@@ -93,7 +95,8 @@
                     dataType: 'json',
                     success: function (data) {
                         const appointmentDetails = `
-                            <p>${data.service_type}, ${data.day} ${data.time}</p>
+                            <p>Your appointment for ${data.service_type}, is in ${data.day}, at ${data.time}.</p>
+                            <p>We are awaiting your arrival.</p>
                             <!-- Additional appointment details can be displayed here -->
                             <div>
                             <a href="#" class="btn btn-primary edit-appointment" data-appointment-id="${appointmentId}">Edit</a>
