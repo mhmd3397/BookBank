@@ -37,7 +37,10 @@ def employee_registration_view(request):
                 password.encode(), bcrypt.gensalt()).decode()
             Employee.objects.create(first_name=first_name, last_name=last_name,
                                     email=email, employee_id=employee_id, password=pw_hash)  # noqa
-            request.session['employee'] = first_name + " " + last_name
+            request.session['employee'] = {
+                'first_name': first_name,
+                'email': email
+            }
             context = {  # noqa
                 'employee': request.session['employee']
             }
@@ -63,10 +66,14 @@ def customer_registration_view(request):
             password = request.POST['password']
             pw_hash = bcrypt.hashpw(
                 password.encode(), bcrypt.gensalt()).decode()
-            User.objects.create(first_name=first_name,
+            user = User.objects.create(first_name=first_name,
                                 last_name=last_name, email=email, password=pw_hash)  # noqa
             request.session['message'] = "You have registered successfully"
-            request.session['user'] = User.objects.get(email=email)
+            request.session['user'] = {
+                'first_name': user.first_name,
+                'user_id': user.id,
+                'email': email
+            }
             context = {  # noqa
                 'message': request.session['message']
             }
@@ -94,7 +101,8 @@ def login(request):
         if user:
             request.session['user'] = {
                 'first_name': user.first_name,
-                'user_id': user.id
+                'user_id': user.id,
+                'email': email
             }
             return redirect('home')
         elif employee:
@@ -113,8 +121,9 @@ def home_page_customer(request):
     message = request.session.get('message')
     email = request.session.get('email')
     users = User.objects.filter(email=email)
+    user = request.session.get('user')
     appointments = Appointment.objects.all()
-    return render(request, 'home_page_customer.html', {'message': message, 'users': users, 'appointments': appointments})  # noqa
+    return render(request, 'home_page_customer.html', {'message': message, 'users': users, 'user': user, 'appointments': appointments})  # noqa
 
 
 def home_page_employee(request):
@@ -170,7 +179,7 @@ def create_appointment(request):
 
     service_choices = SERVICES_CHOICES
     time_choices = TIME_CHOICES
-
+    user1 = request.session.get('user')
     if request.method == 'POST':
         errors = Appointment.objects.basic_validator_appointment(request.POST)
         if errors:
@@ -180,7 +189,6 @@ def create_appointment(request):
         else:
             email = request.session.get('email')
             user = User.objects.get(email=email)
-            print(user.id)
             Appointment.objects.create(
                 day=request.POST.get('appointment_day'),
                 service_type=request.POST.get('service_type'),
@@ -189,7 +197,7 @@ def create_appointment(request):
             )
             return redirect('home_page_customer')
 
-    return render(request, 'creating_appointment_page.html', {'service_choices': service_choices, 'time_choices': time_choices})
+    return render(request, 'creating_appointment_page.html', {'service_choices': service_choices, 'user': user1, 'time_choices': time_choices})
 
 
 def edit(request, id):
@@ -212,7 +220,7 @@ def edit(request, id):
                 messages.error(request, value)
             return redirect('edit')
         else:
-            Appointment.objects.update(
+            Appointment.objects.filter(id=id).update(
                 day=request.POST.get('appointment_day'),
                 service_type=request.POST.get('service_type'),
                 time=request.POST.get('time'),
