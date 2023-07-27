@@ -3,7 +3,7 @@
 <p>
 Using banks can be a very exhausting and tiring experience for the customers due to how crowded it can get and time consuming,
   Bookbank solves this problem by making a platform that will show the available time slots and days for a certain bank,
-  and the users can login and reserve an appointment in said bank.
+  and the users can login and reserve an appointment in said bank, in a very simple and easy to use application for the customer and employees alike.
 </p>
 <br>
 <h2>Functionality and Features</h2>
