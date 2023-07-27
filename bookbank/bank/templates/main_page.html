@@ -39,14 +39,16 @@
                     <br>
                     <a href="{% url 'employee_registration' %}"><button class="btn btn-primary" type="submit">Employee
                             Registration</button></a>
-                            <br>
+                    <br>
                     <a href="{% url 'customer_registration' %}"><button class="btn btn-primary" type="submit">Customer
                             Registration</button></a>
-                            <br>
+                    <br>
                     <a class="login-link" href="{% url 'login_registration' %}">Already registered? Log in</a>
                 </div>
             </div>
         </div>
+        {% load static %}
+        <div><img class="img-fluid" src="{% static "img/book_bank.png" %}" alt="My image"></div>
     </div>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
