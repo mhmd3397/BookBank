@@ -41,17 +41,20 @@
                     </div>
                 </div>
                 <div class="col-sm-6 ">
+                    <br>
                     <div class="card text-dark bg-light mb-3" style="padding: 2%; align-items: center;">
                         <h2>Book Appointment</h2>
                         <form method="POST" action="{% url 'create_appointment' %}">
                             {% csrf_token %}
                             <div class="form-group">
                                 <label for="service_type">Select a Service Type:</label>
-                                <select id="service_type" name="service_type" required>
+                                <select class="form-select form-select-sm" id="service_type" name="service_type"
+                                    required>
                                     {% for choice_value, choice_label in service_choices %}
-                                        <option value="{{ choice_value }}" {% if choice_value == appointment.service_type %}selected{% endif %}>
-                                            {{ choice_label }}
-                                        </option>
+                                    <option value="{{ choice_value }}"
+                                        {% if choice_value == appointment.service_type %}selected{% endif %}>
+                                        {{ choice_label }}
+                                    </option>
                                     {% endfor %}
                                 </select>
                             </div>
@@ -62,12 +65,8 @@
                             </div>
                             <div class="form-group">
                                 <label for="appointment_time">Appointment Time</label>
-                                <select id="time" name="time" required>
-                                    {% for choice_value, choice_label in time_choices %}
-                                        <option value="{{ choice_value }}" {% if choice_value == appointment.time %}selected{% endif %}>
-                                            {{ choice_label }}
-                                        </option>
-                                    {% endfor %}
+                                <select class="form-select form-select-sm" id="time" name="time" required>
+                                    <!-- The available time slots will be dynamically added here using Ajax -->
                                 </select>
                             </div>
                             {% if messages %}
@@ -87,4 +86,44 @@
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            // Fetch available time slots on page load
+            fetchAvailableTimeSlots();
+
+            // Event listener for appointment day and service type change
+            $('#appointment_day, #service_type').change(function () {
+                fetchAvailableTimeSlots();
+            });
+
+            function fetchAvailableTimeSlots() {
+                const selectedDay = $('#appointment_day').val();
+                const selectedServiceType = $('#service_type').val();
+
+                $.ajax({
+                    url: `/get_available_time_slots/`, // Update the URL to your server-side view to get available time slots
+                    type: 'GET',
+                    data: {
+                        day: selectedDay,
+                        service_type: selectedServiceType,
+                    },
+                    dataType: 'json',
+                    success: function (data) {
+                        // Clear the existing options
+                        $('#time').empty();
+
+                        // Add the available time slots as options to the select field
+                        for (const timeSlot of data.available_time_slots) {
+                            $('#time').append(`<option value="${timeSlot}">${timeSlot}</option>`);
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.error(error);
+                    }
+                });
+            }
+        });
+    </script>
 </body>
+
+</html>

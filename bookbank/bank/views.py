@@ -197,11 +197,41 @@ def edit(request, id):
 
 
 def delete(request, id):
-    # appointment = Appointment.objects.get(id=id)
-    # appointment.delete()
-    return redirect('home_page_customer')
+    try:
+        appointment = Appointment.objects.get(id=id)
+        appointment.delete()
+        return JsonResponse({'message': 'Appointment deleted successfully.'})
+    except Appointment.DoesNotExist:
+        return JsonResponse({'error': 'Appointment not found.'}, status=404)
+
+
+# def delete(request, id):
+#     # appointment = Appointment.objects.get(id=id)
+#     # appointment.delete()
+#     return redirect('home_page_customer')
 
 
 def logout(request):
     request.session.flush()
     return redirect('home')
+
+
+def get_available_time_slots(request):
+    if request.method == 'GET':
+        selected_day = request.GET.get('day')
+        selected_service_type = request.GET.get('service_type')
+
+        # Fetch the existing appointments for the selected day and service type
+        existing_appointments = Appointment.objects.filter(
+            day=selected_day, service_type=selected_service_type).values_list('time', flat=True)
+
+        # Get all time choices as a list
+        all_time_choices = [choice[0] for choice in TIME_CHOICES]
+
+        # Filter out the already taken time slots from all time choices
+        available_time_slots = sorted(
+            list(set(all_time_choices) - set(existing_appointments)))
+
+        return JsonResponse({'available_time_slots': available_time_slots})
+    else:
+        return JsonResponse({'error': 'Invalid request method.'}, status=400)

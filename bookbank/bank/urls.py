@@ -22,4 +22,7 @@ urlpatterns = [
     path('edit/<int:id>/', views.edit, name='edit'),
     path('delete/<int:id>/', views.delete, name='delete'),
     path('logout/', views.logout, name='logout'),
+    path('get_available_time_slots/', views.get_available_time_slots,
+         name='get_available_time_slots'),
+
 ]

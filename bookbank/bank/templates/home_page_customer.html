@@ -7,6 +7,10 @@
     <title>Home Page</title>
     {% load static %}
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
 </head>
 
 <body>
@@ -42,21 +46,117 @@
                         <!-- the appointments need to be shown from the closest one to the furthest one -->
                         <ul>
                             {% for user in users %}
-                                {% for appointment in user.appointments.all|dictsort:'time'|dictsort:'day' %}
-                                <li><a href="{% url 'appointment_details' appointment.id %}">{{appointment.day}} {{appointment.time}}</a> <!-- adjust the url -->
-                                </li>
-                                {% endfor %}
+                            {% for appointment in user.appointments.all|dictsort:'time'|dictsort:'day' %}
+                            <li>
+                                <a href="#" class="appointment-link link-light"
+                                    data-appointment-id="{{ appointment.id }}">{{ appointment.day }} -
+                                    {{ appointment.time }}</a>
+                            </li>
+                            {% endfor %}
                             {% endfor %}
                         </ul>
                     </div>
                 </div>
                 <div class="col-sm-6">
-                    
+                    <div class="card text-dark bg-light mb-3" style="padding: 2%; align-items: center;">
+                        <p>Appointment details:</p>
+                        <div id="appointment-details">
+                            <!-- Appointment details fetched using Ajax will be displayed here -->
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </main>
-
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+        integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.min.js"
+        integrity="sha384-Rx+T1VzGupg4BHQYs2gCW9It+akI2MM/mndMCy36UVfodzcJcF0GGLxZIzObiEfa" crossorigin="anonymous">
+    </script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            // Event listener for appointment link clicks
+            $('.appointment-link').click(function (e) {
+                e.preventDefault();
+                const appointmentId = $(this).data('appointment-id');
+                fetchAppointmentDetails(appointmentId);
+            });
+
+            // Function to fetch appointment details using Ajax
+            function fetchAppointmentDetails(appointmentId) {
+                $.ajax({
+                    url: `/appointment_detail/${appointmentId}/`,
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function (data) {
+                        const appointmentDetails = `
+                            <p>${data.service_type}, ${data.day} ${data.time}</p>
+                            <!-- Additional appointment details can be displayed here -->
+                            <div>
+                            <a href="#" class="btn btn-primary edit-appointment" data-appointment-id="${appointmentId}">Edit</a>
+                            <a href="#" class="btn btn-danger delete-appointment" data-appointment-id="${appointmentId}">Delete</a>
+                            </div>
+                        `;
+                        $('#appointment-details').html(appointmentDetails);
+                        addEditDeleteEventListeners();
+                    },
+                    error: function (xhr, status, error) {
+                        console.error(error);
+                        $('#appointment-details').html(
+                            '<p>Error fetching appointment details.</p>');
+                    }
+                });
+            }
+
+            // Function to add event listeners for edit and delete buttons
+            function addEditDeleteEventListeners() {
+                // Event listener for edit button
+                $('.edit-appointment').click(function (e) {
+                    e.preventDefault();
+                    const appointmentId = $(this).data('appointment-id');
+                    // Redirect to the edit view for the specific appointment
+                    window.location.href = `/edit/${appointmentId}/`;
+                });
+
+                // Event listener for delete button
+                $('.delete-appointment').click(function (e) {
+                    e.preventDefault();
+                    const appointmentId = $(this).data('appointment-id');
+                    deleteAppointment(appointmentId); // Call the deleteAppointment function
+                });
+            }
+
+            // Function to delete the appointment using Ajax
+            function deleteAppointment(appointmentId) {
+                $.ajax({
+                    url: `/delete/${appointmentId}/`,
+                    type: 'POST',
+                    dataType: 'json',
+                    beforeSend: function (xhr) {
+                        // Include CSRF token in the request headers
+                        xhr.setRequestHeader("X-CSRFToken", "{{ csrf_token }}");
+                    },
+                    success: function (data) {
+                        // Handle success response if needed
+                        console.log(data.message);
+                        // Remove the deleted appointment from the list without reloading the page
+                        $(`.appointment-link[data-appointment-id="${appointmentId}"]`).parent()
+                            .remove();
+                    },
+                    error: function (xhr, status, error) {
+                        console.error(error);
+                        // Handle error response if needed
+                        alert('Error deleting appointment. Please try again.');
+                    }
+                });
+            }
+        });
+    </script>
+
+
+
+
 </body>
