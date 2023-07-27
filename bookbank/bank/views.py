@@ -3,6 +3,7 @@ from .models import User, Employee, Appointment, SERVICES_CHOICES, TIME_CHOICES
 from django.contrib import messages
 from django.http import JsonResponse
 import bcrypt
+from datetime import date, datetime
 
 # Create your views here.
 
@@ -192,8 +193,32 @@ def create_appointment(request):
 
 
 def edit(request, id):
-    # get the appointment from the database using the id
-    return render(request, "edit.html")
+    if 'user' not in request.session:
+        return redirect('home')
+    if 'employee' in request.session:
+        return redirect('home')
+    email = request.session.get('email')
+    user = User.objects.get(email=email)
+    appointment = Appointment.objects.get(id=id)
+    if user.id != appointment.user_id:
+        return redirect('home')
+    service_choices = SERVICES_CHOICES
+    time_choices = TIME_CHOICES
+    day = str(appointment.day)
+    if request.method == 'POST':
+        errors = Appointment.objects.basic_validator_appointment(request.POST)
+        if errors:
+            for key, value in errors.items():
+                messages.error(request, value)
+            return redirect('edit')
+        else:
+            Appointment.objects.update(
+                day=request.POST.get('appointment_day'),
+                service_type=request.POST.get('service_type'),
+                time=request.POST.get('time'),
+            )
+            return redirect('home_page_customer')
+    return render(request, "edit_appointment_page.html", {'service_choices': service_choices, 'time_choices': time_choices, 'appointment': appointment, 'appointment_day': day})
 
 
 def delete(request, id):
