@@ -14,7 +14,7 @@ urlpatterns = [
     path('home_page_employee/', views.home_page_employee,
          name='home_page_employee'),
     path('appointment_detail/<int:id>', views.appointment_details,
-         name='appintment_details'),
+         name='appointment_details'),
     path('all_appointments/', views.all_appointments,
          name='all_appointments'),
     path('create_appointment', views.create_appointment,
