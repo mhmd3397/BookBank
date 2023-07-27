@@ -9,14 +9,14 @@ Using banks can be a very exhausting and tiring experience for the customers due
 <h2>Functionality and Features</h2>
 <ul>
   <li>Our platform will have a page for the user to register new accounts if he’s a staff member or a customer.</li>
-  <img src="https://github.com/mhmd3397/BookBank/blob/main/wireframepics/homepage.png" alt="homepage">
+  <img src="https://github.com/mhmd3397/BookBank/blob/main/demo/main_page.jpg" alt="homepage">
   <li>Clicking the staff registration will lead to a registration form for the employees,</li>
-  <img src="https://github.com/mhmd3397/BookBank/blob/main/wireframepics/employee%20register.png" alt="register_employee">
+  <img src="https://github.com/mhmd3397/BookBank/blob/main/demo/employee_register.jpg" alt="register_employee">
   <br>
   <li>while clicking on the customer will lead to a form for registering a new customer.</li>
-  <img src="https://github.com/mhmd3397/BookBank/blob/main/wireframepics/customer%20register.png" alt="register_customer">
+  <img src="https://github.com/mhmd3397/BookBank/blob/main/demo/customer_register.jpg" alt="register_customer">
   <li>Clicking on the login link will lead to the login page if there is already an email.</li>
-  <img src="https://github.com/mhmd3397/BookBank/blob/main/wireframepics/login.png" alt"login">
+  <img src="https://github.com/mhmd3397/BookBank/blob/main/demo/login.jpg" alt"login">
   <li>If the user is a customer the page shown will be a page showing all of his booked appointments with the details showing when clicking an appointment,
     it will also be possible to book new appointments from the page.
 </li>
