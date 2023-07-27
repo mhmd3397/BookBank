@@ -33,15 +33,13 @@
                 <div class="col-sm-6">
                     <div class="card-body">
                         <h1>{{service_type}}</h1>
-                        {% comment %} <h1>{% if service_type == 'Teller' %}Teller{% else %}Customer{% endif %}
-                            Appointments</h1> {% endcomment %}
                         <p class="card-text">{{service_type}} appointments:</p>
                         <!-- the appointments need to be shown from the closest one to the furthest one -->
-
                         <ul>
                             {% for appointment in appointments %}
                             <li>
-                                <a href="{% url 'home' %}">{{ appointment.day }} - <!-- adjust the url -->
+                                <a href="#" class="appointment-link"
+                                    data-appointment-id="{{ appointment.id }}">{{ appointment.day }} -
                                     {{ appointment.time }}</a>
                             </li>
                             {% endfor %}
@@ -50,18 +48,49 @@
                 </div>
                 <div class="col-sm-6">
                     <div class="card text-dark bg-light mb-3" style="padding: 2%; align-items: center;">
-                        <form action="/details" method="post">
-                            {% csrf_token %}
-                            <p>Appointment details: </p>
-                            <p class="border">{{appointment.service}}, {{appointment.day}}
-                                {{appointment.time}}</p>
-                        </form>
+                        <p>Appointment details:</p>
+                        <div id="appointment-details"></div>
                     </div>
                 </div>
             </div>
         </div>
     </main>
-
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            // Event listener for appointment link clicks
+            $('.appointment-link').click(function (e) {
+                e.preventDefault();
+                const appointmentId = $(this).data('appointment-id');
+                fetchAppointmentDetails(appointmentId);
+            });
+            // Function to fetch appointment details using Ajax
+            function fetchAppointmentDetails(appointmentId) {
+                $.ajax({
+                    url: `/all_appointments/${appointmentId}/`, // Replace with the URL of the server endpoint to fetch appointment details
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function (data) {
+                        // This function will be executed when the request is successful
+                        // 'data' contains the response from the server (appointment details)
+                        const appointmentDetails = `
+                            <p>${data.service_type}, ${data.day} ${data.time}</p>
+                            <!-- Additional appointment details can be displayed here -->
+                        `;
+                        $('#appointment-details').html(appointmentDetails);
+                    },
+                    error: function (xhr, status, error) {
+                        // This function will be executed if there's an error with the request
+                        console.error(error);
+                        // You can display an error message if needed
+                        $('#appointment-details').html(
+                        '<p>Error fetching appointment details.</p>');
+                    }
+                });
+            }
+        });
+    </script>
 </body>
+
+</html>

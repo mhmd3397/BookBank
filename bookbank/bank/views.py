@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from .models import User, Employee, Appointment, SERVICES_CHOICES, TIME_CHOICES
 from django.contrib import messages
+from django.http import JsonResponse
 import bcrypt
 
 # Create your views here.
@@ -110,7 +111,7 @@ def home_page_customer(request):
         return redirect('home')
     message = request.session.get('message')
     email = request.session.get('email')
-    users = User.objects.filter(email = email)
+    users = User.objects.filter(email=email)
     appointments = Appointment.objects.all()
     return render(request, 'home_page_customer.html', {'message': message, 'users': users, 'appointments': appointments})  # noqa
 
@@ -127,11 +128,14 @@ def home_page_employee(request):
 
 def all_appointments(request):
     if 'user' in request.session:
-        return redirect('home')
+        return redirect('home_page_customer')
     if 'employee' not in request.session:
         return redirect('home')
+
+    service_type = None
+    appointments = Appointment.objects.all()
+
     if request.method == 'POST':
-        appointments = Appointment.objects.all()
         if 'Teller' in request.POST:
             appointments = Appointment.objects.filter(service_type='Teller')
             service_type = "Teller"
@@ -139,7 +143,22 @@ def all_appointments(request):
             appointments = Appointment.objects.filter(
                 service_type='Customer service')
             service_type = "Customer service"
-    return render(request, 'all_appointment.html', {'appointments': appointments, 'service_type': service_type})  # noqa
+
+    return render(request, 'all_appointment.html', {'appointments': appointments, 'service_type': service_type})
+
+
+def appointment_details(request, id):
+    try:
+        appointment = Appointment.objects.get(id=id)
+        appointment_data = {
+            'service_type': appointment.service_type,
+            'day': appointment.day,
+            'time': appointment.time,
+            # Add other appointment details as needed
+        }
+        return JsonResponse(appointment_data)
+    except Appointment.DoesNotExist:
+        return JsonResponse({'error': 'Appointment not found.'}, status=404)
 
 
 def create_appointment(request):
@@ -147,8 +166,10 @@ def create_appointment(request):
         return redirect('home')
     if 'employee' in request.session:
         return redirect('home')
+
     service_choices = SERVICES_CHOICES
     time_choices = TIME_CHOICES
+
     if request.method == 'POST':
         errors = Appointment.objects.basic_validator_appointment(request.POST)
         if errors:
@@ -157,18 +178,17 @@ def create_appointment(request):
             return redirect('create_appointment')
         else:
             email = request.session.get('email')
-            user = User.objects.get(email = email)
+            user = User.objects.get(email=email)
             print(user.id)
-            Appointment.objects.create(day = request.POST.get('appointment_day'),
-                                        service_type = request.POST.get('service_type'),
-                                        time = request.POST.get('time'),
-                                        user = User.objects.get(id = user.id)
-                                    )
+            Appointment.objects.create(
+                day=request.POST.get('appointment_day'),
+                service_type=request.POST.get('service_type'),
+                time=request.POST.get('time'),
+                user=User.objects.get(id=user.id)
+            )
             return redirect('home_page_customer')
-    return render(request, 'creating_appointment_page.html', {'service_choices': service_choices, 'time_choices': time_choices})
 
-def appointment_details(request, id):
-    return render(request, 'home_page_customer.html', )
+    return render(request, 'creating_appointment_page.html', {'service_choices': service_choices, 'time_choices': time_choices})
 
 
 def edit(request, id):
